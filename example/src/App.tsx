@@ -6,17 +6,10 @@ import "gantt-task-react/dist/index.css";
 
 // Init
 const App = () => {
-  const [view, setView] = React.useState<ViewMode>(ViewMode.Day);
+  const [view, setView] = React.useState<ViewMode>(ViewMode.Year);
   const [tasks, setTasks] = React.useState<Task[]>(initTasks());
   const [isChecked, setIsChecked] = React.useState(true);
-  let columnWidth = 65;
-  if (view === ViewMode.Year) {
-    columnWidth = 350;
-  } else if (view === ViewMode.Month) {
-    columnWidth = 300;
-  } else if (view === ViewMode.Week) {
-    columnWidth = 250;
-  }
+  let columnWidth = 50;
 
   const handleTaskChange = (task: Task) => {
     console.log("On date change Id:" + task.id);
