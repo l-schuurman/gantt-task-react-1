@@ -52,21 +52,24 @@ const drownPathAndTriangle = (
   taskHeight: number,
   arrowIndent: number
 ) => {
-  const indexCompare = taskFrom.index > taskTo.index ? -1 : 1;
-  const taskToEndPosition = taskTo.y + taskHeight / 2;
-  const taskFromEndPosition = taskFrom.x2 + arrowIndent * 2;
+  const indexCompare = taskFrom.index > taskTo.index ? -1 : 1; // Checks which task is displayed first in task list
+  const taskFromStartPosition = taskFrom.y + taskHeight / 2; // y-position of the middle of the start task
+  const taskToEndPosition = taskTo.y + taskHeight / 2; // y-position of the middle of the destination task
+  const taskFromEndPosition = taskFrom.x2 + arrowIndent * 2; // Whether arrow needs to "backtrack" left or can go straight down
   const taskFromHorizontalOffsetValue =
-    taskFromEndPosition < taskTo.x1 ? "" : `H ${taskTo.x1 - arrowIndent}`;
+    taskFromEndPosition < taskTo.x1 ? "" : `H ${taskTo.x1 - arrowIndent}`; // Draw horizontal line left, if needed.
   const taskToHorizontalOffsetValue =
     taskFromEndPosition > taskTo.x1
       ? arrowIndent
-      : taskTo.x1 - taskFrom.x2 - arrowIndent;
-
-  const path = `M ${taskFrom.x2} ${taskFrom.y + taskHeight / 2} 
+      : taskTo.x1 - taskFrom.x2 - arrowIndent; // Length of horizontal line going to the right
+  const taskToVerticalOffsetValue = taskToEndPosition - indexCompare * rowHeight / 2;
+  
+  // Construct the path
+  const path = `M ${taskFrom.x2} ${taskFromStartPosition} 
   h ${arrowIndent} 
-  v ${(indexCompare * rowHeight) / 2} 
+  V ${taskToVerticalOffsetValue} 
   ${taskFromHorizontalOffsetValue}
-  V ${taskToEndPosition} 
+  v ${indexCompare * rowHeight / 2} 
   h ${taskToHorizontalOffsetValue}`;
 
   const trianglePoints = `${taskTo.x1},${taskToEndPosition} 

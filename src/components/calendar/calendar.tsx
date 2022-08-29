@@ -20,6 +20,7 @@ export type CalendarProps = {
   columnWidth: number;
   fontFamily: string;
   fontSize: string;
+  svgContainerWidth: number;
 };
 
 export const Calendar: React.FC<CalendarProps> = ({
@@ -31,6 +32,7 @@ export const Calendar: React.FC<CalendarProps> = ({
   columnWidth,
   fontFamily,
   fontSize,
+  svgContainerWidth,
 }) => {
   const getCalendarValuesForYear = () => {
     const topValues: ReactChild[] = [];
@@ -206,8 +208,8 @@ export const Calendar: React.FC<CalendarProps> = ({
             xText={
               columnWidth * (i + 1) -
               getDaysInMonth(date.getMonth(), date.getFullYear()) *
-                columnWidth *
-                0.5
+              columnWidth *
+              0.5
             }
             yText={topDefaultHeight * 0.9}
           />
@@ -310,6 +312,24 @@ export const Calendar: React.FC<CalendarProps> = ({
     return [topValues, bottomValues];
   };
 
+  const getMaxZoom = () => {
+    let n = 200;
+    let defWidth = Math.floor(svgContainerWidth / columnWidth);
+    const threshold = 1.2;
+
+    let maxZoom = Math.ceil(Math.log2(Math.ceil(n / defWidth)));
+
+    if ((Math.ceil(n / defWidth) / Math.pow(2, maxZoom - 1)) < threshold) {
+      maxZoom -= 1;
+    }
+
+    return maxZoom
+  };
+
+  // const setZoomLevel = () => {
+
+  // }
+
   let topValues: ReactChild[] = [];
   let bottomValues: ReactChild[] = [];
   switch (dateSetup.viewMode) {
@@ -317,9 +337,9 @@ export const Calendar: React.FC<CalendarProps> = ({
       [topValues, bottomValues] = getCalendarValuesForYear();
       break;
     case ViewMode.Month:
-        [topValues, bottomValues] = getCalendarValuesForMonth();
-        break;
-      case ViewMode.Week:
+      [topValues, bottomValues] = getCalendarValuesForMonth();
+      break;
+    case ViewMode.Week:
       [topValues, bottomValues] = getCalendarValuesForWeek();
       break;
     case ViewMode.Day:
@@ -332,12 +352,15 @@ export const Calendar: React.FC<CalendarProps> = ({
     case ViewMode.Hour:
       [topValues, bottomValues] = getCalendarValuesForHour();
   }
+
+  getMaxZoom();
+
   return (
     <g className="calendar" fontSize={fontSize} fontFamily={fontFamily}>
       <rect
         x={0}
         y={0}
-        width={columnWidth * dateSetup.dates.length}
+        width={columnWidth * (dateSetup.dates.length - 2)}
         height={headerHeight}
         className={styles.calendarHeader}
       />
