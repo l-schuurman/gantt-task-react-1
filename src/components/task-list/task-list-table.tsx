@@ -1,32 +1,12 @@
-import React, { useMemo } from "react";
+import React from "react";
 import styles from "./task-list-table.module.css";
 import { Task } from "../../types/public-types";
-
-const localeDateStringCache = {};
-const toLocaleDateStringFactory =
-  (locale: string) =>
-  (date: Date, dateTimeOptions: Intl.DateTimeFormatOptions) => {
-    const key = date.toString();
-    let lds = localeDateStringCache[key];
-    if (!lds) {
-      lds = date.toLocaleDateString(locale, dateTimeOptions);
-      localeDateStringCache[key] = lds;
-    }
-    return lds;
-  };
-const dateTimeOptions: Intl.DateTimeFormatOptions = {
-  weekday: "short",
-  year: "numeric",
-  month: "long",
-  day: "numeric",
-};
 
 export const TaskListTableDefault: React.FC<{
   rowHeight: number;
   rowWidth: string;
   fontFamily: string;
   fontSize: string;
-  locale: string;
   tasks: Task[];
   selectedTaskId: string;
   setSelectedTask: (taskId: string) => void;
@@ -37,13 +17,8 @@ export const TaskListTableDefault: React.FC<{
   tasks,
   fontFamily,
   fontSize,
-  locale,
   onExpanderClick,
 }) => {
-  const toLocaleDateString = useMemo(
-    () => toLocaleDateStringFactory(locale),
-    [locale]
-  );
 
   return (
     <div
@@ -96,7 +71,7 @@ export const TaskListTableDefault: React.FC<{
                 maxWidth: rowWidth,
               }}
             >
-              &nbsp;{toLocaleDateString(t.start, dateTimeOptions)}
+              &nbsp;{t.start.getFullYear()-1999}
             </div>
             <div
               className={styles.taskListCell}
@@ -105,7 +80,7 @@ export const TaskListTableDefault: React.FC<{
                 maxWidth: rowWidth,
               }}
             >
-              &nbsp;{toLocaleDateString(t.end, dateTimeOptions)}
+              &nbsp;{t.end.getFullYear()-1999}
             </div>
           </div>
         );
