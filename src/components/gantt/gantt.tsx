@@ -93,7 +93,7 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
   const zoomInterval = Math.pow(2, maxZoom - zoomLevel);
 
 
-  console.log(maxZoom, zoomLevel);
+  console.log(maxZoom, zoomLevel, zoomInterval);
 
   const [dateSetup, setDateSetup] = useState<DateSetup>(() => {
     const [startDate, endDate] = ganttDateRange(tasks);
@@ -411,8 +411,6 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
   };
   const calendarProps: CalendarProps = {
     dateSetup,
-    locale,
-    viewMode,
     headerHeight,
     columnWidth,
     fontFamily,

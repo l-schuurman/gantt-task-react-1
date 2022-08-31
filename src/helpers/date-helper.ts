@@ -100,31 +100,31 @@ export const seedDates = (
   const dates: Date[] = [currentDate];
   console.log(interval);
   while (currentDate < endDate) {
-    // currentDate = addToDate(currentDate, 1, "year")
+    currentDate = addToDate(currentDate, interval, "year")
     switch (viewMode) {
-        // default:
-        //   break;
-      case ViewMode.Year:
-        currentDate = addToDate(currentDate, 1, "year");
-        break;
-      case ViewMode.Month:
-        currentDate = addToDate(currentDate, 2, "year");
-        break;
-      case ViewMode.Week:
-        currentDate = addToDate(currentDate, 4, "year");
-        break;
-      case ViewMode.Day:
-        currentDate = addToDate(currentDate, 8, "year");
-        break;
-      case ViewMode.HalfDay:
-        currentDate = addToDate(currentDate, 16, "year");
-        break;
-      case ViewMode.QuarterDay:
-        currentDate = addToDate(currentDate, 32, "year");
-        break;
-      case ViewMode.Hour:
-        currentDate = addToDate(currentDate, 64, "year");
-        break;
+        default:
+          break;
+    //   case ViewMode.Year:
+    //     currentDate = addToDate(currentDate, 1, "year");
+    //     break;
+    //   case ViewMode.Month:
+    //     currentDate = addToDate(currentDate, 2, "year");
+    //     break;
+    //   case ViewMode.Week:
+    //     currentDate = addToDate(currentDate, 4, "year");
+    //     break;
+    //   case ViewMode.Day:
+    //     currentDate = addToDate(currentDate, 8, "year");
+    //     break;
+    //   case ViewMode.HalfDay:
+    //     currentDate = addToDate(currentDate, 16, "year");
+    //     break;
+    //   case ViewMode.QuarterDay:
+    //     currentDate = addToDate(currentDate, 32, "year");
+    //     break;
+    //   case ViewMode.Hour:
+    //     currentDate = addToDate(currentDate, 64, "year");
+    //     break;
     }
     dates.push(currentDate);
   }
@@ -183,10 +183,13 @@ export const getDaysInMonth = (month: number, year: number) => {
 
 export const getMaxZoom = (startDate: Date, endDate: Date, svgContainerWidth: number, columnWidth: number) => {
   let n = endDate.getFullYear() - startDate.getFullYear();
-  let defWidth = Math.floor(svgContainerWidth / columnWidth);
+  console.log("n", n)
+  let defWidth = svgContainerWidth === 0 ? 15: Math.floor(svgContainerWidth / columnWidth);
+  console.log("defWidth", svgContainerWidth, columnWidth, defWidth)
   const threshold = 1.2;
 
   let maxZoom = Math.ceil(Math.log2(Math.ceil(n / defWidth)));
+  console.log("maxZoom", maxZoom);
 
   if ((Math.ceil(n / defWidth) / Math.pow(2, maxZoom - 1)) < threshold) {
     maxZoom -= 1;

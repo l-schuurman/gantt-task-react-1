@@ -86,7 +86,7 @@ const App = () => {
         onZoomChange={setZoom}
         zoomLevel={zoom}
       />
-      <h3>Gantt With Limited Height</h3>
+      {/* <h3>Gantt With Limited Height</h3>
       <Gantt
         tasks={tasks}
         viewMode={view}
@@ -102,7 +102,7 @@ const App = () => {
         columnWidth={columnWidth}
         onZoomChange={setZoom}
         zoomLevel={zoom}
-      />
+      /> */}
     </div>
   );
 };
