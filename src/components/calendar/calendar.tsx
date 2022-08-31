@@ -59,7 +59,7 @@ export const Calendar: React.FC<CalendarProps> = ({
             y1Line={0}
             y2Line={headerHeight}
             xText={columnWidth * i}
-            yText={40}
+            yText={15}
           />
         );
       }

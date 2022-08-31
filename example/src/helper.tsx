@@ -5,7 +5,7 @@ export function initTasks() {
 // const { scheduleJSON } = require('./scheduleJSONaes.js')
 
 
-const { scheduleJSON } = require('./radix.js')
+const { scheduleJSON } = require('./maxreplicate.js')
 
   let tasks: Task[] = [];
 
