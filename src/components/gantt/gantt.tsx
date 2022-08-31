@@ -7,7 +7,7 @@ import React, {
 } from "react";
 import { ViewMode, GanttProps, Task } from "../../types/public-types";
 import { GridProps } from "../grid/grid";
-import { ganttDateRange, seedDates } from "../../helpers/date-helper";
+import { ganttDateRange, seedDates, getMaxZoom } from "../../helpers/date-helper";
 import { CalendarProps } from "../calendar/calendar";
 import { TaskGanttContentProps } from "./task-gantt-content";
 import { TaskListHeaderDefault } from "../task-list/task-list-header";
@@ -65,16 +65,11 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
   onDelete,
   onSelect,
   onExpanderClick,
+  onZoomChange,
+  zoomLevel,
 }) => {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const taskListRef = useRef<HTMLDivElement>(null);
-  const [dateSetup, setDateSetup] = useState<DateSetup>(() => {
-    const [startDate, endDate] = ganttDateRange(tasks, viewMode, preStepsCount);
-    return { viewMode, dates: seedDates(startDate, endDate, viewMode) };
-  });
-  const [currentViewDate, setCurrentViewDate] = useState<Date | undefined>(
-    undefined
-  );
 
   const [taskListWidth, setTaskListWidth] = useState(0);
   const [svgContainerWidth, setSvgContainerWidth] = useState(0);
@@ -86,6 +81,26 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
   const taskHeight = useMemo(
     () => (rowHeight * barFill) / 100,
     [rowHeight, barFill]
+  );
+
+  const [startDate, endDate] = ganttDateRange(tasks);
+  const maxZoom = getMaxZoom(startDate, endDate, svgContainerWidth, columnWidth)
+ 
+  zoomLevel = Math.min(maxZoom, zoomLevel);
+  zoomLevel = Math.max(0, zoomLevel);
+  onZoomChange(zoomLevel);
+
+  const zoomInterval = Math.pow(2, maxZoom - zoomLevel);
+
+
+  console.log(maxZoom, zoomLevel);
+
+  const [dateSetup, setDateSetup] = useState<DateSetup>(() => {
+    const [startDate, endDate] = ganttDateRange(tasks);
+    return { viewMode, dates: seedDates(startDate, endDate, viewMode, zoomInterval) };
+  });
+  const [currentViewDate, setCurrentViewDate] = useState<Date | undefined>(
+    undefined
   );
 
   const [selectedTask, setSelectedTask] = useState<BarTask>();
@@ -108,11 +123,8 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
     }
     filteredTasks = filteredTasks.sort(sortTasks);
     const [startDate, endDate] = ganttDateRange(
-      filteredTasks,
-      viewMode,
-      preStepsCount
-    );
-    let newDates = seedDates(startDate, endDate, viewMode);
+      filteredTasks);
+    let newDates = seedDates(startDate, endDate, viewMode, zoomInterval);
     if (rtl) {
       newDates = newDates.reverse();
       if (scrollX === -1) {
@@ -387,6 +399,7 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
       onExpanderClick({ ...task, hideChildren: !task.hideChildren });
     }
   };
+
   const gridProps: GridProps = {
     columnWidth,
     svgWidth,
@@ -405,7 +418,6 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
     fontFamily,
     fontSize,
     rtl,
-    svgContainerWidth,
   };
   const barProps: TaskGanttContentProps = {
     tasks: barTasks,

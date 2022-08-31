@@ -3,28 +3,33 @@ import "gantt-task-react/dist/index.css";
 import { ViewMode } from "gantt-task-react";
 type ViewSwitcherProps = {
   isChecked: boolean;
+  zoomLevel: number;
   onViewListChange: (isChecked: boolean) => void;
   onViewModeChange: (viewMode: ViewMode) => void;
+  onZoomChange: (zoomLevel: number) => void;
 };
+
 export const ViewSwitcher: React.FC<ViewSwitcherProps> = ({
   onViewModeChange,
   onViewListChange,
+  onZoomChange,
   isChecked,
+  zoomLevel
 }) => {
   return (
     <div className="ViewContainer">
       <button
         className="Button"
-        onClick={() => onViewModeChange(ViewMode.Year)}
+        onClick={() => onZoomChange(zoomLevel - 1)}
       >
-        -
+        -{zoomLevel}
       </button>
 
       <button
         className="Button"
-        onClick={() => onViewModeChange(ViewMode.Month)}
+        onClick={() => onZoomChange(zoomLevel + 1)}
       >
-        +
+        +{zoomLevel}
       </button>
       
       <button

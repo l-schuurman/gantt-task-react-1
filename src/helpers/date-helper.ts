@@ -71,8 +71,6 @@ export const startOfDate = (date: Date, scale: DateHelperScales) => {
 
 export const ganttDateRange = (
   tasks: Task[],
-  viewMode: ViewMode,
-  preStepsCount: number
 ) => {
   let newStartDate: Date = tasks[0].start;
   let newEndDate: Date = tasks[0].start;
@@ -84,86 +82,48 @@ export const ganttDateRange = (
       newEndDate = task.end;
     }
   }
-  switch (viewMode) {
-    case ViewMode.Year:
       newStartDate = addToDate(newStartDate, 0, "year");
       newStartDate = startOfDate(newStartDate, "year");
       newEndDate = addToDate(newEndDate, 1, "year");
       newEndDate = startOfDate(newEndDate, "year");
-      break;
-    case ViewMode.Month:
-      newStartDate = addToDate(newStartDate, -1 * preStepsCount, "month");
-      newStartDate = startOfDate(newStartDate, "month");
-      newEndDate = addToDate(newEndDate, 1, "year");
-      newEndDate = startOfDate(newEndDate, "year");
-      break;
-    case ViewMode.Week:
-      newStartDate = startOfDate(newStartDate, "day");
-      newStartDate = addToDate(
-        getMonday(newStartDate),
-        -7 * preStepsCount,
-        "day"
-      );
-      newEndDate = startOfDate(newEndDate, "day");
-      newEndDate = addToDate(newEndDate, 1.5, "month");
-      break;
-    case ViewMode.Day:
-      newStartDate = startOfDate(newStartDate, "day");
-      newStartDate = addToDate(newStartDate, -1 * preStepsCount, "day");
-      newEndDate = startOfDate(newEndDate, "day");
-      newEndDate = addToDate(newEndDate, 19, "day");
-      break;
-    case ViewMode.QuarterDay:
-      newStartDate = startOfDate(newStartDate, "day");
-      newStartDate = addToDate(newStartDate, -1 * preStepsCount, "day");
-      newEndDate = startOfDate(newEndDate, "day");
-      newEndDate = addToDate(newEndDate, 66, "hour"); // 24(1 day)*3 - 6
-      break;
-    case ViewMode.HalfDay:
-      newStartDate = startOfDate(newStartDate, "day");
-      newStartDate = addToDate(newStartDate, -1 * preStepsCount, "day");
-      newEndDate = startOfDate(newEndDate, "day");
-      newEndDate = addToDate(newEndDate, 108, "hour"); // 24(1 day)*5 - 12
-      break;
-    case ViewMode.Hour:
-      newStartDate = startOfDate(newStartDate, "hour");
-      newStartDate = addToDate(newStartDate, -1 * preStepsCount, "hour");
-      newEndDate = startOfDate(newEndDate, "day");
-      newEndDate = addToDate(newEndDate, 1, "day");
-      break;
-  }
+ 
   return [newStartDate, newEndDate];
 };
 
 export const seedDates = (
   startDate: Date,
   endDate: Date,
-  viewMode: ViewMode
+  viewMode: ViewMode,
+  interval: number
 ) => {
   let currentDate: Date = new Date(startDate);
   const dates: Date[] = [currentDate];
+  console.log(interval);
   while (currentDate < endDate) {
+    // currentDate = addToDate(currentDate, 1, "year")
     switch (viewMode) {
+        // default:
+        //   break;
       case ViewMode.Year:
         currentDate = addToDate(currentDate, 1, "year");
         break;
       case ViewMode.Month:
-        currentDate = addToDate(currentDate, 1, "month");
+        currentDate = addToDate(currentDate, 2, "year");
         break;
       case ViewMode.Week:
-        currentDate = addToDate(currentDate, 7, "day");
+        currentDate = addToDate(currentDate, 4, "year");
         break;
       case ViewMode.Day:
-        currentDate = addToDate(currentDate, 1, "day");
+        currentDate = addToDate(currentDate, 8, "year");
         break;
       case ViewMode.HalfDay:
-        currentDate = addToDate(currentDate, 12, "hour");
+        currentDate = addToDate(currentDate, 16, "year");
         break;
       case ViewMode.QuarterDay:
-        currentDate = addToDate(currentDate, 6, "hour");
+        currentDate = addToDate(currentDate, 32, "year");
         break;
       case ViewMode.Hour:
-        currentDate = addToDate(currentDate, 1, "hour");
+        currentDate = addToDate(currentDate, 64, "year");
         break;
     }
     dates.push(currentDate);
@@ -197,16 +157,6 @@ export const getLocalDayOfWeek = (
   return bottomValue;
 };
 
-/**
- * Returns monday of current week
- * @param date date for modify
- */
-const getMonday = (date: Date) => {
-  const day = date.getDay();
-  const diff = date.getDate() - day + (day === 0 ? -6 : 1); // adjust when day is sunday
-  return new Date(date.setDate(diff));
-};
-
 export const getWeekNumberISO8601 = (date: Date) => {
   const tmpDate = new Date(date.valueOf());
   const dayNumber = (tmpDate.getDay() + 6) % 7;
@@ -229,4 +179,18 @@ export const getWeekNumberISO8601 = (date: Date) => {
 
 export const getDaysInMonth = (month: number, year: number) => {
   return new Date(year, month + 1, 0).getDate();
+};
+
+export const getMaxZoom = (startDate: Date, endDate: Date, svgContainerWidth: number, columnWidth: number) => {
+  let n = endDate.getFullYear() - startDate.getFullYear();
+  let defWidth = Math.floor(svgContainerWidth / columnWidth);
+  const threshold = 1.2;
+
+  let maxZoom = Math.ceil(Math.log2(Math.ceil(n / defWidth)));
+
+  if ((Math.ceil(n / defWidth) / Math.pow(2, maxZoom - 1)) < threshold) {
+    maxZoom -= 1;
+  }
+
+  return maxZoom
 };

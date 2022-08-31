@@ -20,7 +20,6 @@ export type CalendarProps = {
   columnWidth: number;
   fontFamily: string;
   fontSize: string;
-  svgContainerWidth: number;
 };
 
 export const Calendar: React.FC<CalendarProps> = ({
@@ -32,7 +31,6 @@ export const Calendar: React.FC<CalendarProps> = ({
   columnWidth,
   fontFamily,
   fontSize,
-  svgContainerWidth,
 }) => {
   const getCalendarValuesForYear = () => {
     const topValues: ReactChild[] = [];
@@ -312,24 +310,6 @@ export const Calendar: React.FC<CalendarProps> = ({
     return [topValues, bottomValues];
   };
 
-  const getMaxZoom = () => {
-    let n = 200;
-    let defWidth = Math.floor(svgContainerWidth / columnWidth);
-    const threshold = 1.2;
-
-    let maxZoom = Math.ceil(Math.log2(Math.ceil(n / defWidth)));
-
-    if ((Math.ceil(n / defWidth) / Math.pow(2, maxZoom - 1)) < threshold) {
-      maxZoom -= 1;
-    }
-
-    return maxZoom
-  };
-
-  // const setZoomLevel = () => {
-
-  // }
-
   let topValues: ReactChild[] = [];
   let bottomValues: ReactChild[] = [];
   switch (dateSetup.viewMode) {
@@ -352,8 +332,6 @@ export const Calendar: React.FC<CalendarProps> = ({
     case ViewMode.Hour:
       [topValues, bottomValues] = getCalendarValuesForHour();
   }
-
-  getMaxZoom();
 
   return (
     <g className="calendar" fontSize={fontSize} fontFamily={fontFamily}>

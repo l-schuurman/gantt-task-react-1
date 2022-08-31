@@ -7,6 +7,7 @@ import "gantt-task-react/dist/index.css";
 // Init
 const App = () => {
   const [view, setView] = React.useState<ViewMode>(ViewMode.Year);
+  const [zoom, setZoom] = React.useState<number>(0);
   const [tasks, setTasks] = React.useState<Task[]>(initTasks());
   const [isChecked, setIsChecked] = React.useState(true);
   let columnWidth = 50;
@@ -66,6 +67,8 @@ const App = () => {
         onViewModeChange={viewMode => setView(viewMode)}
         onViewListChange={setIsChecked}
         isChecked={isChecked}
+        onZoomChange={setZoom}
+        zoomLevel={zoom}
       />
       <h3>Gantt With Unlimited Height</h3>
       <Gantt
@@ -80,6 +83,8 @@ const App = () => {
         onExpanderClick={handleExpanderClick}
         listCellWidth={isChecked ? "155px" : ""}
         columnWidth={columnWidth}
+        onZoomChange={setZoom}
+        zoomLevel={zoom}
       />
       <h3>Gantt With Limited Height</h3>
       <Gantt
@@ -95,6 +100,8 @@ const App = () => {
         listCellWidth={isChecked ? "155px" : ""}
         ganttHeight={300}
         columnWidth={columnWidth}
+        onZoomChange={setZoom}
+        zoomLevel={zoom}
       />
     </div>
   );

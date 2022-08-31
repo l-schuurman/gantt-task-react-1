@@ -7,6 +7,8 @@ export enum ViewMode {
   Week = "Week",
   Month = "Month",
   Year = "Year",
+  Out = "Out",
+  In = "In"
 }
 export type TaskType = "task" | "milestone" | "project";
 export interface Task {
@@ -82,6 +84,8 @@ export interface DisplayOption {
    */
   locale?: string;
   rtl?: boolean;
+  onZoomChange: (zoomLevel: number) => void;
+  zoomLevel: number;
 }
 
 export interface StylingOption {
