@@ -161,9 +161,10 @@ const convertToBar = (
     x2 = taskXCoordinate(task.end, dates, columnWidth);
   }
   let typeInternal: TaskTypeInternal = task.type;
-  if (typeInternal === "task" && x2 - x1 < handleWidth * 2) {
+  if (typeInternal === "task" && x2 - x1 < 5 /*handleWidth * 2*/) {
     typeInternal = "smalltask";
-    x2 = x1 + handleWidth * 2;
+    // x2 = x1 + handleWidth * 2;
+    x2 = x1 + 5;
   }
 
   const [progressWidth, progressX] = progressWithByParams(

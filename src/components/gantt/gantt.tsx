@@ -26,10 +26,10 @@ import styles from "./gantt.module.css";
 
 export const Gantt: React.FunctionComponent<GanttProps> = ({
   tasks,
-  headerHeight = 50,
+  headerHeight = 30,
   columnWidth = 60,
   listCellWidth = "155px",
-  rowHeight = 50,
+  rowHeight = 20,
   ganttHeight = 0,
   viewMode = ViewMode.Month,
   preStepsCount = 1,
@@ -106,7 +106,7 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
   const [selectedTask, setSelectedTask] = useState<BarTask>();
   const [failedTask, setFailedTask] = useState<BarTask | null>(null);
 
-  const svgWidth = (dateSetup.dates.length - 2) * columnWidth;
+  const svgWidth = (dateSetup.dates.length - 1) * columnWidth;
   const ganttFullHeight = barTasks.length * rowHeight;
 
   const [scrollY, setScrollY] = useState(0);

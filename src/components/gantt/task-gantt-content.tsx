@@ -284,15 +284,15 @@ export const TaskGanttContent: React.FC<TaskGanttContentProps> = ({
           return (
             <TaskItem
               task={task}
-              arrowIndent={arrowIndent}
-              taskHeight={taskHeight}
+              // arrowIndent={arrowIndent}
+              // taskHeight={taskHeight}
               isProgressChangeable={!!onProgressChange && !task.isDisabled}
               isDateChangeable={!!onDateChange && !task.isDisabled}
               isDelete={!task.isDisabled}
               onEventStart={handleBarEventStart}
               key={task.id}
               isSelected={!!selectedTask && task.id === selectedTask.id}
-              rtl={rtl}
+              // rtl={rtl}
             />
           );
         })}

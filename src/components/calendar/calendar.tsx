@@ -22,31 +22,34 @@ export const Calendar: React.FC<CalendarProps> = ({
 }) => {
   const getCalendarValuesForYear = () => {
     const topValues: ReactChild[] = [];
-    const bottomValues: ReactChild[] = [];
-    const topDefaultHeight = headerHeight * 0.5;
-    for (let i = 0; i < dateSetup.dates.length; i++) {
+    // const bottomValues: ReactChild[] = [];
+    // const topDefaultHeight = headerHeight * 0.5;
+    for (let i = 1; i < dateSetup.dates.length - 1; i++) {
       const date = dateSetup.dates[i];
-      const bottomValue = date.getFullYear() - 1999;
-      bottomValues.push(
-        <text
-          key={date.getFullYear()}
-          y={headerHeight * 0.8}
-          x={columnWidth * i + columnWidth * 0.5}
-          className={styles.calendarBottomText}
-        >
-          {bottomValue}
-        </text>
-      );
+      // const bottomValue = date.getFullYear() - 1999;
+      // bottomValues.push(
+      //   <text
+      //     key={date.getFullYear()}
+      //     y={headerHeight * 0.8}
+      //     x={columnWidth * i + columnWidth * 0.5}
+      //     className={styles.calendarBottomText}
+      //   >
+      //     {bottomValue}
+      //   </text>
+      // );
       if (
         i === 0 ||
         date.getFullYear() !== dateSetup.dates[i - 1].getFullYear()
       ) {
-        const topValue = date.getFullYear().toString();
-        let xText: number;
+        const topValue = (date.getFullYear() - 1999).toString();
+        // let xText: number;
+        // if (rtl) {
+        //   xText = (6 + i + date.getFullYear() + 1) * columnWidth;
+        // } else {
+        //   xText = (6 + i - date.getFullYear()) * columnWidth;
+        // }
         if (rtl) {
-          xText = (6 + i + date.getFullYear() + 1) * columnWidth;
-        } else {
-          xText = (6 + i - date.getFullYear()) * columnWidth;
+          null;
         }
         topValues.push(
           <TopPartOfCalendar
@@ -55,8 +58,8 @@ export const Calendar: React.FC<CalendarProps> = ({
             x1Line={columnWidth * i}
             y1Line={0}
             y2Line={headerHeight}
-            xText={xText}
-            yText={topDefaultHeight * 0.9}
+            xText={columnWidth * i}
+            yText={40}
           />
         );
       }
@@ -73,7 +76,7 @@ export const Calendar: React.FC<CalendarProps> = ({
       <rect
         x={0}
         y={0}
-        width={columnWidth * (dateSetup.dates.length - 2)}
+        width={columnWidth * (dateSetup.dates.length - 1)}
         height={headerHeight}
         className={styles.calendarHeader}
       />

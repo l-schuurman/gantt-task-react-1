@@ -61,7 +61,7 @@ export const GridBody: React.FC<GridBodyProps> = ({
   let tickX = 0;
   const ticks: ReactChild[] = [];
   let today: ReactChild = <rect />;
-  for (let i = 0; i < dates.length - 2; i++) {
+  for (let i = 0; i < dates.length - 1; i++) {
     const date = dates[i];
     ticks.push(
       <line

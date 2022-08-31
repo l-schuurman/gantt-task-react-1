@@ -97,6 +97,7 @@ export const seedDates = (
   interval: number
 ) => {
   let currentDate: Date = new Date(startDate);
+  currentDate = addToDate(currentDate, -interval, "year")
   const dates: Date[] = [currentDate];
   console.log(interval);
   while (currentDate < endDate) {
