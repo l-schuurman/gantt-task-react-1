@@ -3,7 +3,6 @@ import { EventOption } from "../../types/public-types";
 import { BarTask } from "../../types/bar-task";
 import { Arrow } from "../other/arrow";
 import { handleTaskBySVGMouseEvent } from "../../helpers/bar-helper";
-import { isKeyboardEvent } from "../../helpers/other-helper";
 import { TaskItem } from "../task-item/task-item";
 import {
   BarMoveAction,
@@ -50,9 +49,7 @@ export const TaskGanttContent: React.FC<TaskGanttContentProps> = ({
   setSelectedTask,
   onDateChange,
   onProgressChange,
-  onDoubleClick,
   onClick,
-  onDelete,
 }) => {
   const point = svg?.current?.createSVGPoint();
   const [xStep, setXStep] = useState(0);
@@ -193,28 +190,14 @@ export const TaskGanttContent: React.FC<TaskGanttContentProps> = ({
   const handleBarEventStart = async (
     action: GanttContentMoveAction,
     task: BarTask,
-    event?: React.MouseEvent | React.KeyboardEvent
+    event?: React.MouseEvent
   ) => {
     if (!event) {
       if (action === "select") {
         setSelectedTask(task.id);
       }
     }
-    // Keyboard events
-    else if (isKeyboardEvent(event)) {
-      if (action === "delete") {
-        if (onDelete) {
-          try {
-            const result = await onDelete(task);
-            if (result !== undefined && result) {
-              setGanttEvent({ action, changedTask: task });
-            }
-          } catch (error) {
-            console.error("Error on Delete. " + error);
-          }
-        }
-      }
-    }
+
     // Mouse Events
     else if (action === "mouseenter") {
       if (!ganttEvent.action) {
@@ -228,8 +211,6 @@ export const TaskGanttContent: React.FC<TaskGanttContentProps> = ({
       if (ganttEvent.action === "mouseenter") {
         setGanttEvent({ action: "" });
       }
-    } else if (action === "dblclick") {
-      !!onDoubleClick && onDoubleClick(task);
     } else if (action === "click") {
       !!onClick && onClick(task);
     }
@@ -280,7 +261,6 @@ export const TaskGanttContent: React.FC<TaskGanttContentProps> = ({
               task={task}
               isProgressChangeable={!!onProgressChange && !task.isDisabled}
               isDateChangeable={!!onDateChange && !task.isDisabled}
-              isDelete={!task.isDisabled}
               onEventStart={handleBarEventStart}
               key={task.id}
               isSelected={!!selectedTask && task.id === selectedTask.id}

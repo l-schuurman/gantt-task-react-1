@@ -82,6 +82,15 @@ export const TaskListTableDefault: React.FC<{
             >
               &nbsp;{t.end.getFullYear()-1999}
             </div>
+            <div
+              className={styles.taskListCell}
+              style={{
+                minWidth: rowWidth,
+                maxWidth: rowWidth,
+              }}
+            >
+              &nbsp;aaa
+            </div>
           </div>
         );
       })}

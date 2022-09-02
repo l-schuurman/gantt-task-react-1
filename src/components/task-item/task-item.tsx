@@ -10,19 +10,17 @@ export type TaskItemProps = {
   task: BarTask;
   isProgressChangeable: boolean;
   isDateChangeable: boolean;
-  isDelete: boolean;
   isSelected: boolean;
   onEventStart: (
     action: GanttContentMoveAction,
     selectedTask: BarTask,
-    event?: React.MouseEvent | React.KeyboardEvent
+    event?: React.MouseEvent
   ) => any;
 };
 
 export const TaskItem: React.FC<TaskItemProps> = props => {
   const {
     task,
-    isDelete,
     isSelected,
     onEventStart,
   } = {
@@ -49,23 +47,11 @@ export const TaskItem: React.FC<TaskItemProps> = props => {
 
   return (
     <g
-      onKeyDown={e => {
-        switch (e.key) {
-          case "Delete": {
-            if (isDelete) onEventStart("delete", task, e);
-            break;
-          }
-        }
-        e.stopPropagation();
-      }}
       onMouseEnter={e => {
         onEventStart("mouseenter", task, e);
       }}
       onMouseLeave={e => {
         onEventStart("mouseleave", task, e);
-      }}
-      onDoubleClick={e => {
-        onEventStart("dblclick", task, e);
       }}
       onClick={e => {
         onEventStart("click", task, e);

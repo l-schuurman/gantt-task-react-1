@@ -19,7 +19,7 @@ export const Calendar: React.FC<CalendarProps> = ({
   fontSize,
 }) => {
   const getCalendarValuesForYear = () => {
-    const topValues: React.ReactNode[] = [];
+    const topValues: React.ReactElement[] = [];
     for (let i = 1; i < dateSetup.dates.length - 1; i++) {
       const date = dateSetup.dates[i];
       if (
@@ -41,12 +41,10 @@ export const Calendar: React.FC<CalendarProps> = ({
         );
       }
     }
-    return [topValues, bottomValues];
+    return topValues;
   };
 
-  let topValues: React.ReactNode[] = [];
-  let bottomValues: React.ReactNode[] = [];
-  [topValues, bottomValues] = getCalendarValuesForYear();
+  let topValues: React.ReactElement[] = getCalendarValuesForYear();
 
   return (
     <g className="calendar" fontSize={fontSize} fontFamily={fontFamily}>
@@ -57,7 +55,7 @@ export const Calendar: React.FC<CalendarProps> = ({
         height={headerHeight}
         className={styles.calendarHeader}
       />
-      {bottomValues} {topValues}
+      {topValues}
     </g>
   );
 };

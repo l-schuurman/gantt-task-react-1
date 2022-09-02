@@ -52,7 +52,6 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
   fontFamily = "Arial, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue",
   fontSize = "14px",
   arrowIndent = 20,
-  todayColor = "rgba(252, 248, 227, 0.5)",
   viewDate,
   TooltipContent = StandardTooltipContent,
   TaskListHeader = TaskListHeaderDefault,
@@ -96,7 +95,7 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
 
   const [dateSetup, setDateSetup] = useState<DateSetup>(() => {
     const [startDate, endDate] = ganttDateRange(tasks);
-    return { viewMode, dates: seedDates(startDate, endDate, viewMode, zoomInterval) };
+    return { viewMode, dates: seedDates(startDate, endDate, zoomInterval) };
   });
   const [currentViewDate, setCurrentViewDate] = useState<Date | undefined>(
     undefined
@@ -123,7 +122,7 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
     filteredTasks = filteredTasks.sort(sortTasks);
     const [startDate, endDate] = ganttDateRange(
       filteredTasks);
-    let newDates = seedDates(startDate, endDate, viewMode, zoomInterval);
+    let newDates = seedDates(startDate, endDate, zoomInterval);
     setDateSetup({ dates: newDates, viewMode });
     setBarTasks(
       convertToBarTasks(
@@ -396,7 +395,6 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
     tasks: tasks,
     rowHeight,
     dates: dateSetup.dates,
-    todayColor,
   };
   const calendarProps: CalendarProps = {
     dateSetup,

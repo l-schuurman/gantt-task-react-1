@@ -1,4 +1,4 @@
-import { Task, ViewMode } from "../types/public-types";
+import { Task } from "../types/public-types";
 import DateTimeFormatOptions = Intl.DateTimeFormatOptions;
 import DateTimeFormat = Intl.DateTimeFormat;
 
@@ -93,7 +93,6 @@ export const ganttDateRange = (
 export const seedDates = (
   startDate: Date,
   endDate: Date,
-  viewMode: ViewMode,
   interval: number
 ) => {
   let currentDate: Date = new Date(startDate);
@@ -102,31 +101,6 @@ export const seedDates = (
   console.log(interval);
   while (currentDate < endDate) {
     currentDate = addToDate(currentDate, interval, "year")
-    switch (viewMode) {
-        default:
-          break;
-    //   case ViewMode.Year:
-    //     currentDate = addToDate(currentDate, 1, "year");
-    //     break;
-    //   case ViewMode.Month:
-    //     currentDate = addToDate(currentDate, 2, "year");
-    //     break;
-    //   case ViewMode.Week:
-    //     currentDate = addToDate(currentDate, 4, "year");
-    //     break;
-    //   case ViewMode.Day:
-    //     currentDate = addToDate(currentDate, 8, "year");
-    //     break;
-    //   case ViewMode.HalfDay:
-    //     currentDate = addToDate(currentDate, 16, "year");
-    //     break;
-    //   case ViewMode.QuarterDay:
-    //     currentDate = addToDate(currentDate, 32, "year");
-    //     break;
-    //   case ViewMode.Hour:
-    //     currentDate = addToDate(currentDate, 64, "year");
-    //     break;
-    }
     dates.push(currentDate);
   }
   return dates;
