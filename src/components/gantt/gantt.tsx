@@ -5,7 +5,7 @@ import React, {
   useEffect,
   useMemo,
 } from "react";
-import { ViewMode, GanttProps, Task } from "../../types/public-types";
+import { GanttProps, Task } from "../../types/public-types";
 import { GridProps } from "../grid/grid";
 import { ganttDateRange, seedDates, getMaxZoom } from "../../helpers/date-helper";
 import { CalendarProps } from "../calendar/calendar";
@@ -31,7 +31,6 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
   listCellWidth = "155px",
   rowHeight = 20,
   ganttHeight = 0,
-  viewMode = ViewMode.Month,
   preStepsCount = 1,
   locale = "en-GB",
   barFill = 60,
@@ -87,7 +86,7 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
 
   const [dateSetup, setDateSetup] = useState<DateSetup>(() => {
     const [startDate, endDate] = ganttDateRange(tasks);
-    return { viewMode, dates: seedDates(startDate, endDate, zoomInterval) };
+    return { dates: seedDates(startDate, endDate, zoomInterval) };
   });
   const [currentViewDate, setCurrentViewDate] = useState<Date | undefined>(
     undefined
@@ -115,7 +114,7 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
     const [startDate, endDate] = ganttDateRange(
       filteredTasks);
     let newDates = seedDates(startDate, endDate, zoomInterval);
-    setDateSetup({ dates: newDates, viewMode });
+    setDateSetup({ dates: newDates });
     setBarTasks(
       convertToBarTasks(
         filteredTasks,
@@ -135,7 +134,6 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
     );
   }, [
     tasks,
-    viewMode,
     preStepsCount,
     rowHeight,
     barCornerRadius,
@@ -154,7 +152,6 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
 
   useEffect(() => {
     if (
-      viewMode === dateSetup.viewMode &&
       ((viewDate && !currentViewDate) ||
         (viewDate && currentViewDate?.valueOf() !== viewDate.valueOf()))
     ) {
@@ -175,8 +172,6 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
     viewDate,
     columnWidth,
     dateSetup.dates,
-    dateSetup.viewMode,
-    viewMode,
     currentViewDate,
     setCurrentViewDate,
   ]);

@@ -1,12 +1,11 @@
 import React from "react";
-import { Task, ViewMode, Gantt } from "gantt-task-react";
+import { Task, Gantt } from "gantt-task-react";
 import { ViewSwitcher } from "./components/view-switcher";
 import { initTasks } from "./helper";
 import "gantt-task-react/dist/index.css";
 
 // Init
 const App = () => {
-  const [view, setView] = React.useState<ViewMode>(ViewMode.Year);
   const [zoom, setZoom] = React.useState<number>(0);
   const [tasks, setTasks] = React.useState<Task[]>(initTasks());
   const [isChecked, setIsChecked] = React.useState(true);
@@ -28,7 +27,6 @@ const App = () => {
   return (
     <div className="Wrapper">
       <ViewSwitcher
-        onViewModeChange={viewMode => setView(viewMode)}
         onViewListChange={setIsChecked}
         isChecked={isChecked}
         onZoomChange={setZoom}
@@ -37,7 +35,6 @@ const App = () => {
       <h3>Gantt With Unlimited Height</h3>
       <Gantt
         tasks={tasks}
-        viewMode={view}
         onClick={handleClick}
         onSelect={handleSelect}
         onExpanderClick={handleExpanderClick}
@@ -50,11 +47,6 @@ const App = () => {
       {/* <h3>Gantt With Limited Height</h3>
       <Gantt
         tasks={tasks}
-        viewMode={view}
-        onDateChange={handleTaskChange}
-        onDelete={handleTaskDelete}
-        onProgressChange={handleProgressChange}
-        onDoubleClick={handleDblClick}
         onClick={handleClick}
         onSelect={handleSelect}
         onExpanderClick={handleExpanderClick}

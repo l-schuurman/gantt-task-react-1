@@ -1,15 +1,3 @@
-export enum ViewMode {
-  Hour = "Hour",
-  QuarterDay = "Quarter Day",
-  HalfDay = "Half Day",
-  Day = "Day",
-  /** ISO-8601 week */
-  Week = "Week",
-  Month = "Month",
-  Year = "Year",
-  Out = "Out",
-  In = "In"
-}
 export type TaskType = "task" | "milestone" | "project";
 export interface Task {
   id: string;
@@ -48,7 +36,6 @@ export interface EventOption {
 }
 
 export interface DisplayOption {
-  viewMode?: ViewMode;
   viewDate?: Date;
   preStepsCount?: number;
   /**
