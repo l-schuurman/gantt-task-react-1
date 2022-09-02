@@ -8,8 +8,6 @@ import { Project } from "./project/project";
 
 export type TaskItemProps = {
   task: BarTask;
-  isProgressChangeable: boolean;
-  isDateChangeable: boolean;
   isSelected: boolean;
   onEventStart: (
     action: GanttContentMoveAction,

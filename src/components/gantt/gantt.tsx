@@ -36,12 +36,8 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
   locale = "en-GB",
   barFill = 60,
   barCornerRadius = 3,
-  barProgressColor = "#a3a3ff",
-  barProgressSelectedColor = "#8282f5",
   barBackgroundColor = "#b8c2cc",
-  barBackgroundSelectedColor = "#aeb8c2",
-  projectProgressColor = "#7db59a",
-  projectProgressSelectedColor = "#59a985",
+  barBackgroundSelectedColor = "#28eaed",
   projectBackgroundColor = "#fac465",
   projectBackgroundSelectedColor = "#f7bb53",
   milestoneBackgroundColor = "#f1c453",
@@ -56,11 +52,7 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
   TooltipContent = StandardTooltipContent,
   TaskListHeader = TaskListHeaderDefault,
   TaskListTable = TaskListTableDefault,
-  onDateChange,
-  onProgressChange,
-  onDoubleClick,
   onClick,
-  onDelete,
   onSelect,
   onExpanderClick,
   onZoomChange,
@@ -133,12 +125,8 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
         taskHeight,
         barCornerRadius,
         handleWidth,
-        barProgressColor,
-        barProgressSelectedColor,
         barBackgroundColor,
         barBackgroundSelectedColor,
-        projectProgressColor,
-        projectProgressSelectedColor,
         projectBackgroundColor,
         projectBackgroundSelectedColor,
         milestoneBackgroundColor,
@@ -154,12 +142,8 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
     columnWidth,
     taskHeight,
     handleWidth,
-    barProgressColor,
-    barProgressSelectedColor,
     barBackgroundColor,
     barBackgroundSelectedColor,
-    projectProgressColor,
-    projectProgressSelectedColor,
     projectBackgroundColor,
     projectBackgroundSelectedColor,
     milestoneBackgroundColor,
@@ -196,35 +180,6 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
     currentViewDate,
     setCurrentViewDate,
   ]);
-
-  useEffect(() => {
-    const { changedTask, action } = ganttEvent;
-    if (changedTask) {
-      if (action === "delete") {
-        setGanttEvent({ action: "" });
-        setBarTasks(barTasks.filter(t => t.id !== changedTask.id));
-      } else if (
-        action === "move" ||
-        action === "end" ||
-        action === "start" ||
-        action === "progress"
-      ) {
-        const prevStateTask = barTasks.find(t => t.id === changedTask.id);
-        if (
-          prevStateTask &&
-          (prevStateTask.start.getTime() !== changedTask.start.getTime() ||
-            prevStateTask.end.getTime() !== changedTask.end.getTime() ||
-            prevStateTask.progress !== changedTask.progress)
-        ) {
-          // actions for change
-          const newTaskList = barTasks.map(t =>
-            t.id === changedTask.id ? changedTask : t
-          );
-          setBarTasks(newTaskList);
-        }
-      }
-    }
-  }, [ganttEvent, barTasks]);
 
   useEffect(() => {
     if (failedTask) {
@@ -420,11 +375,7 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
     setGanttEvent,
     setFailedTask,
     setSelectedTask: handleSelectedTask,
-    onDateChange,
-    onProgressChange,
-    onDoubleClick,
     onClick,
-    onDelete,
   };
 
   const tableProps: TaskListProps = {

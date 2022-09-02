@@ -4,8 +4,6 @@ import styles from "./milestone.module.css";
 
 export const Milestone: React.FC<TaskItemProps> = ({
   task,
-  isDateChangeable,
-  onEventStart,
   isSelected,
 }) => {
   const transform = `rotate(45 ${task.x1 + task.height * 0.356} 
@@ -28,9 +26,6 @@ export const Milestone: React.FC<TaskItemProps> = ({
         ry={task.barCornerRadius}
         transform={transform}
         className={styles.milestoneBackground}
-        onMouseDown={e => {
-          isDateChangeable && onEventStart("move", task, e);
-        }}
       />
     </g>
   );

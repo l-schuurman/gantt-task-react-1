@@ -22,7 +22,6 @@ export function initTasks() {
       start: new Date(2000 + node.pStart, 0),
       end: new Date(2000 + node.pEnd, 0),
       name: node.pName,
-      progress: 100,
       dependencies: node.pDepend.map(String),
       displayOrder: index + 1,
       isDisabled: true,
