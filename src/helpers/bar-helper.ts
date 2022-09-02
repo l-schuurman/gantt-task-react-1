@@ -3,7 +3,7 @@ import { BarTask, TaskTypeInternal } from "../types/bar-task";
 
 export const convertToBarTasks = (
   tasks: Task[],
-  dates: Date[],
+  dates: number[],
   columnWidth: number,
   rowHeight: number,
   taskHeight: number,
@@ -53,7 +53,7 @@ export const convertToBarTasks = (
 const convertToBarTask = (
   task: Task,
   index: number,
-  dates: Date[],
+  dates: number[],
   columnWidth: number,
   rowHeight: number,
   taskHeight: number,
@@ -117,7 +117,7 @@ const convertToBarTask = (
 const convertToBar = (
   task: Task,
   index: number,
-  dates: Date[],
+  dates: number[],
   columnWidth: number,
   rowHeight: number,
   taskHeight: number,
@@ -165,7 +165,7 @@ const convertToBar = (
 const convertToMilestone = (
   task: Task,
   index: number,
-  dates: Date[],
+  dates: number[],
   columnWidth: number,
   rowHeight: number,
   taskHeight: number,
@@ -203,14 +203,14 @@ const convertToMilestone = (
   };
 };
 
-const taskXCoordinate = (xDate: Date, dates: Date[], columnWidth: number) => {
-  const index = dates.findIndex(d => d.getTime() > xDate.getTime()) - 1;
+const taskXCoordinate = (xDate: number, dates: number[], columnWidth: number) => {
+  const index = dates.findIndex(d => d > xDate) - 1;
 
   let percentOfInterval = 0;
 
-  if (dates[index].getTime() !== xDate.getTime()) {
-    const remainderMillis = xDate.getTime() - dates[index].getTime();
-    percentOfInterval = remainderMillis / (dates[index + 1].getTime() - dates[index].getTime());
+  if (dates[index] !== xDate) {
+    const remainderMillis = xDate - dates[index];
+    percentOfInterval = remainderMillis / (dates[index + 1] - dates[index]);
   }
 
   const x = index * columnWidth + percentOfInterval * columnWidth;

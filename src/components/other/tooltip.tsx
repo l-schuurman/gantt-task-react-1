@@ -112,16 +112,16 @@ export const StandardTooltipContent: React.FC<{
       <b style={{ fontSize: fontSize + 6 }}>{`${
         task.name
       }`}</b>
-      {task.end.getTime() - task.start.getTime() !== 0 && (
+      {task.end - task.start !== 0 && (
         <p className={styles.tooltipDefaultContainerParagraph}>{`Duration: ${~~(
-          (task.end.getFullYear() - task.start.getFullYear())
+          (task.end - task.start)
         )} clock cycle(s)`}</p>
       )}
       <p className={styles.tooltipDefaultContainerParagraph}>
-        {`Start: ${task.start.getFullYear()-1999}`}
+        {`Start: ${task.start}`}
       </p>
       <p className={styles.tooltipDefaultContainerParagraph}>
-        {`End: ${task.end.getFullYear()-1999}`}
+        {`End: ${task.end}`}
       </p>
     </div>
   );

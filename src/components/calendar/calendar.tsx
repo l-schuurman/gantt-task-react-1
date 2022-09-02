@@ -23,10 +23,9 @@ export const Calendar: React.FC<CalendarProps> = ({
     for (let i = 1; i < dateSetup.dates.length - 1; i++) {
       const date = dateSetup.dates[i];
       if (
-        i === 0 ||
-        date.getFullYear() !== dateSetup.dates[i - 1].getFullYear()
+        date !== dateSetup.dates[i - 1]
       ) {
-        const topValue = (date.getFullYear() - 1999).toString();
+        const topValue = date.toString();
 
         topValues.push(
           <TopPartOfCalendar

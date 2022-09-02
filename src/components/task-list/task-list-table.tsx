@@ -71,7 +71,7 @@ export const TaskListTableDefault: React.FC<{
                 maxWidth: rowWidth,
               }}
             >
-              &nbsp;{t.start.getFullYear()-1999}
+              &nbsp;{t.start}
             </div>
             <div
               className={styles.taskListCell}
@@ -80,7 +80,7 @@ export const TaskListTableDefault: React.FC<{
                 maxWidth: rowWidth,
               }}
             >
-              &nbsp;{t.end.getFullYear()-1999}
+              &nbsp;{t.end}
             </div>
             <div
               className={styles.taskListCell}

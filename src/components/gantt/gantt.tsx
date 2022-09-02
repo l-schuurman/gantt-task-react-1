@@ -74,7 +74,7 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
 
   const [startDate, endDate] = ganttDateRange(tasks);
   const maxZoom = getMaxZoom(startDate, endDate, svgContainerWidth, columnWidth)
- 
+
   zoomLevel = Math.min(maxZoom, zoomLevel);
   zoomLevel = Math.max(0, zoomLevel);
   onZoomChange(zoomLevel);
@@ -88,7 +88,7 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
     const [startDate, endDate] = ganttDateRange(tasks);
     return { dates: seedDates(startDate, endDate, zoomInterval) };
   });
-  const [currentViewDate, setCurrentViewDate] = useState<Date | undefined>(
+  const [currentViewDate, setCurrentViewDate] = useState<number | undefined>(
     undefined
   );
 
@@ -158,9 +158,9 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
       const dates = dateSetup.dates;
       const index = dates.findIndex(
         (d, i) =>
-          viewDate.valueOf() >= d.valueOf() &&
+          viewDate >= d &&
           i + 1 !== dates.length &&
-          viewDate.valueOf() < dates[i + 1].valueOf()
+          viewDate < dates[i + 1]
       );
       if (index === -1) {
         return;

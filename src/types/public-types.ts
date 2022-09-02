@@ -3,8 +3,8 @@ export interface Task {
   id: string;
   type: TaskType;
   name: string;
-  start: Date;
-  end: Date;
+  start: number;
+  end: number;
   styles?: {
     backgroundColor?: string;
     backgroundSelectedColor?: string;
@@ -36,7 +36,7 @@ export interface EventOption {
 }
 
 export interface DisplayOption {
-  viewDate?: Date;
+  viewDate?: number;
   preStepsCount?: number;
   /**
    * Specifies the month name language. Able formats: ISO 639-2, Java Locale

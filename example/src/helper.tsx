@@ -1,9 +1,6 @@
 import { Task, TaskType } from "../../dist/types/public-types";
 
 export function initTasks() {
-  // const scheduleJSON = JSON.parse(require('C:\\Users\\Black\\Code\\ReactProjects\\gantt-task-react\\example\\src\\scheduleJSONaes.json'));
-  // const { scheduleJSON } = require('./scheduleJSONaes.js')
-
 
   const { scheduleJSON } = require('./maxreplicate.js')
 
@@ -19,8 +16,8 @@ export function initTasks() {
     let taskItem: Task = {
       id: String(node.pID),
       type: "task" as TaskType,
-      start: new Date(2000 + node.pStart, 0),
-      end: new Date(2000 + node.pEnd, 0),
+      start: node.pStart,
+      end: node.pEnd,
       name: node.pName,
       dependencies: node.pDepend.map(String),
       displayOrder: index + 1,
@@ -141,10 +138,10 @@ export function getStartEndDateForProject(tasks: Task[], projectId: string) {
 
   for (let i = 0; i < projectTasks.length; i++) {
     const task = projectTasks[i];
-    if (start.getTime() > task.start.getTime()) {
+    if (start > task.start) {
       start = task.start;
     }
-    if (end.getTime() < task.end.getTime()) {
+    if (end < task.end) {
       end = task.end;
     }
   }
@@ -157,10 +154,10 @@ function getStartEndDate(tasks: Task[]) {
 
   for (let i = 0; i < tasks.length; i++) {
     const task = tasks[i];
-    if (start.getTime() > task.start.getTime()) {
+    if (start > task.start) {
       start = task.start;
     }
-    if (end.getTime() < task.end.getTime()) {
+    if (end < task.end) {
       end = task.end;
     }
   }

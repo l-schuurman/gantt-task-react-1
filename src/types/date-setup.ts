@@ -1,3 +1,3 @@
 export interface DateSetup {
-  dates: Date[];
+  dates: number[];
 }

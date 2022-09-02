@@ -4,7 +4,7 @@ import styles from "./grid.module.css";
 
 export type GridBodyProps = {
   tasks: Task[];
-  dates: Date[];
+  dates: number[];
   svgWidth: number;
   rowHeight: number;
   columnWidth: number;
@@ -56,9 +56,10 @@ export const GridBody: React.FC<GridBodyProps> = ({
   const ticks: React.ReactElement[] = [];
   for (let i = 0; i < dates.length - 1; i++) {
     const date = dates[i];
+    let keey = new Date(date, 0)
     ticks.push(
       <line
-        key={date.getTime()}
+        key={keey.getTime()}
         x1={tickX}
         y1={0}
         x2={tickX}
