@@ -1,28 +1,22 @@
 import { Task, TaskType } from "../../dist/types/public-types";
 
 export function initTasks() {
-// const scheduleJSON = JSON.parse(require('C:\\Users\\Black\\Code\\ReactProjects\\gantt-task-react\\example\\src\\scheduleJSONaes.json'));
-// const { scheduleJSON } = require('./scheduleJSONaes.js')
+  // const scheduleJSON = JSON.parse(require('C:\\Users\\Black\\Code\\ReactProjects\\gantt-task-react\\example\\src\\scheduleJSONaes.json'));
+  // const { scheduleJSON } = require('./scheduleJSONaes.js')
 
 
-const { scheduleJSON } = require('./maxreplicate.js')
+  const { scheduleJSON } = require('./maxreplicate.js')
 
   let tasks: Task[] = [];
 
-  // let projectID = String(scheduleJSON[0].pID);
-  // let projectTaskItem = {
-  //   id: String(scheduleJSON[0].pID),
-  //   type: "task",
-  //   start: new Date(2000 + scheduleJSON[0].pStart),
-  //   end: new Date(2000 + scheduleJSON[0].pEnd),
-  //   name: scheduleJSON[0].pName,
-  //   progress: 100,
-  //   dependencies: scheduleJSON[0].pDepend.map(String),
-  // }
+  let parents = new Set();
+  scheduleJSON.forEach((element: any) => {
+    parents.add(String(element.pParent));
+  })
 
   scheduleJSON.forEach((node: any, index: any) => {
 
-    let taskItem = {
+    let taskItem: Task = {
       id: String(node.pID),
       type: "task" as TaskType,
       start: new Date(2000 + node.pStart, 0),
@@ -30,12 +24,31 @@ const { scheduleJSON } = require('./maxreplicate.js')
       name: node.pName,
       progress: 100,
       dependencies: node.pDepend.map(String),
-      displayOrder: index,
+      displayOrder: index + 1,
       isDisabled: true,
+    }
+    if (taskItem.id !== "1") {
+      taskItem.project = String(node.pParent);
+    }
+
+    console.log(parents, taskItem.id)
+    if (parents.has(taskItem.id)) {
+      console.log("hiiiii")
+      taskItem.type = "project";
+      taskItem.hideChildren = true;
+    } else {
+      taskItem.type = "task";
     }
 
     tasks.push(taskItem);
-  });
+
+  }
+  );
+  console.log(tasks)
+
+  let [start, end] = getStartEndDate(tasks);
+  tasks[0].start = start;
+  tasks[0].end = end;
 
   // tasks[0] = projectTaskItem;
 
@@ -127,6 +140,22 @@ export function getStartEndDateForProject(tasks: Task[], projectId: string) {
 
   for (let i = 0; i < projectTasks.length; i++) {
     const task = projectTasks[i];
+    if (start.getTime() > task.start.getTime()) {
+      start = task.start;
+    }
+    if (end.getTime() < task.end.getTime()) {
+      end = task.end;
+    }
+  }
+  return [start, end];
+}
+
+function getStartEndDate(tasks: Task[]) {
+  let start = tasks[0].start;
+  let end = tasks[0].end;
+
+  for (let i = 0; i < tasks.length; i++) {
+    const task = tasks[i];
     if (start.getTime() > task.start.getTime()) {
       start = task.start;
     }
