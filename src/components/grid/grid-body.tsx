@@ -1,4 +1,4 @@
-import React, { ReactChild } from "react";
+import React from "react";
 import { Task } from "../../types/public-types";
 import { addToDate } from "../../helpers/date-helper";
 import styles from "./grid.module.css";
@@ -10,7 +10,6 @@ export type GridBodyProps = {
   rowHeight: number;
   columnWidth: number;
   todayColor: string;
-  rtl: boolean;
 };
 export const GridBody: React.FC<GridBodyProps> = ({
   tasks,
@@ -19,11 +18,10 @@ export const GridBody: React.FC<GridBodyProps> = ({
   svgWidth,
   columnWidth,
   todayColor,
-  rtl,
 }) => {
   let y = 0;
-  const gridRows: ReactChild[] = [];
-  const rowLines: ReactChild[] = [
+  const gridRows: React.ReactNode[] = [];
+  const rowLines: React.ReactNode[] = [
     <line
       key="RowLineFirst"
       x="0"
@@ -59,8 +57,8 @@ export const GridBody: React.FC<GridBodyProps> = ({
 
   const now = new Date();
   let tickX = 0;
-  const ticks: ReactChild[] = [];
-  let today: ReactChild = <rect />;
+  const ticks: React.ReactNode[] = [];
+  let today: React.ReactNode = <rect />;
   for (let i = 0; i < dates.length - 1; i++) {
     const date = dates[i];
     ticks.push(
@@ -90,23 +88,6 @@ export const GridBody: React.FC<GridBodyProps> = ({
       today = (
         <rect
           x={tickX}
-          y={0}
-          width={columnWidth}
-          height={y}
-          fill={todayColor}
-        />
-      );
-    }
-    // rtl for today
-    if (
-      rtl &&
-      i + 1 !== dates.length &&
-      date.getTime() >= now.getTime() &&
-      dates[i + 1].getTime() < now.getTime()
-    ) {
-      today = (
-        <rect
-          x={tickX + columnWidth}
           y={0}
           width={columnWidth}
           height={y}

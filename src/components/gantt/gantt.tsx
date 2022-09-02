@@ -46,7 +46,6 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
   projectBackgroundSelectedColor = "#f7bb53",
   milestoneBackgroundColor = "#f1c453",
   milestoneBackgroundSelectedColor = "#f29e4c",
-  rtl = false,
   handleWidth = 8,
   timeStep = 300000,
   arrowColor = "grey",
@@ -125,12 +124,6 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
     const [startDate, endDate] = ganttDateRange(
       filteredTasks);
     let newDates = seedDates(startDate, endDate, viewMode, zoomInterval);
-    if (rtl) {
-      newDates = newDates.reverse();
-      if (scrollX === -1) {
-        setScrollX(newDates.length * columnWidth);
-      }
-    }
     setDateSetup({ dates: newDates, viewMode });
     setBarTasks(
       convertToBarTasks(
@@ -141,7 +134,6 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
         taskHeight,
         barCornerRadius,
         handleWidth,
-        rtl,
         barProgressColor,
         barProgressSelectedColor,
         barBackgroundColor,
@@ -173,7 +165,6 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
     projectBackgroundSelectedColor,
     milestoneBackgroundColor,
     milestoneBackgroundSelectedColor,
-    rtl,
     scrollX,
     onExpanderClick,
   ]);
@@ -308,7 +299,6 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
     scrollX,
     ganttHeight,
     svgWidth,
-    rtl,
     ganttFullHeight,
   ]);
 
@@ -407,7 +397,6 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
     rowHeight,
     dates: dateSetup.dates,
     todayColor,
-    rtl,
   };
   const calendarProps: CalendarProps = {
     dateSetup,
@@ -415,7 +404,6 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
     columnWidth,
     fontFamily,
     fontSize,
-    rtl,
   };
   const barProps: TaskGanttContentProps = {
     tasks: barTasks,
@@ -431,7 +419,6 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
     fontSize,
     arrowIndent,
     svgWidth,
-    rtl,
     setGanttEvent,
     setFailedTask,
     setSelectedTask: handleSelectedTask,
@@ -491,7 +478,6 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
             headerHeight={headerHeight}
             taskListWidth={taskListWidth}
             TooltipContent={TooltipContent}
-            rtl={rtl}
             svgWidth={svgWidth}
           />
         )}
@@ -501,14 +487,12 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
           headerHeight={headerHeight}
           scroll={scrollY}
           onScroll={handleScrollY}
-          rtl={rtl}
         />
       </div>
       <HorizontalScroll
         svgWidth={svgWidth}
         taskListWidth={taskListWidth}
         scroll={scrollX}
-        rtl={rtl}
         onScroll={handleScrollX}
       />
     </div>

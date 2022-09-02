@@ -1,11 +1,10 @@
-import React, { ReactChild } from "react";
+import React from "react";
 import { TopPartOfCalendar } from "./top-part-of-calendar";
 import { DateSetup } from "../../types/date-setup";
 import styles from "./calendar.module.css";
 
 export type CalendarProps = {
   dateSetup: DateSetup;
-  rtl: boolean;
   headerHeight: number;
   columnWidth: number;
   fontFamily: string;
@@ -14,43 +13,21 @@ export type CalendarProps = {
 
 export const Calendar: React.FC<CalendarProps> = ({
   dateSetup,
-  rtl,
   headerHeight,
   columnWidth,
   fontFamily,
   fontSize,
 }) => {
   const getCalendarValuesForYear = () => {
-    const topValues: ReactChild[] = [];
-    // const bottomValues: ReactChild[] = [];
-    // const topDefaultHeight = headerHeight * 0.5;
+    const topValues: React.ReactNode[] = [];
     for (let i = 1; i < dateSetup.dates.length - 1; i++) {
       const date = dateSetup.dates[i];
-      // const bottomValue = date.getFullYear() - 1999;
-      // bottomValues.push(
-      //   <text
-      //     key={date.getFullYear()}
-      //     y={headerHeight * 0.8}
-      //     x={columnWidth * i + columnWidth * 0.5}
-      //     className={styles.calendarBottomText}
-      //   >
-      //     {bottomValue}
-      //   </text>
-      // );
       if (
         i === 0 ||
         date.getFullYear() !== dateSetup.dates[i - 1].getFullYear()
       ) {
         const topValue = (date.getFullYear() - 1999).toString();
-        // let xText: number;
-        // if (rtl) {
-        //   xText = (6 + i + date.getFullYear() + 1) * columnWidth;
-        // } else {
-        //   xText = (6 + i - date.getFullYear()) * columnWidth;
-        // }
-        if (rtl) {
-          null;
-        }
+
         topValues.push(
           <TopPartOfCalendar
             key={topValue}
@@ -67,8 +44,8 @@ export const Calendar: React.FC<CalendarProps> = ({
     return [topValues, bottomValues];
   };
 
-  let topValues: ReactChild[] = [];
-  let bottomValues: ReactChild[] = [];
+  let topValues: React.ReactNode[] = [];
+  let bottomValues: React.ReactNode[] = [];
   [topValues, bottomValues] = getCalendarValuesForYear();
 
   return (

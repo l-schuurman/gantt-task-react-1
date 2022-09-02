@@ -49,6 +49,8 @@ export function initTasks() {
   let [start, end] = getStartEndDate(tasks);
   tasks[0].start = start;
   tasks[0].end = end;
+  tasks[0].hideChildren = false;
+
 
   // tasks[0] = projectTaskItem;
 
