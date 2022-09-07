@@ -33,7 +33,6 @@ export const seedCycles = (
   let current: number = start;
   current = addToCycle(current, -interval)
   const cycles: number[] = [current];
-  console.log(interval);
   while (current < end) {
     current = addToCycle(current, interval)
     cycles.push(current);
@@ -43,13 +42,10 @@ export const seedCycles = (
 
 export const getMaxZoom = (start: number, end: number, svgContainerWidth: number, columnWidth: number) => {
   let n = end - start;
-  console.log("n", n)
   let defWidth = svgContainerWidth === 0 ? 15 : Math.floor(svgContainerWidth / columnWidth);
-  console.log("defWidth", svgContainerWidth, columnWidth, defWidth)
   const threshold = 1.2;
 
   let maxZoom = Math.ceil(Math.log2(Math.ceil(n / defWidth)));
-  console.log("maxZoom", maxZoom);
 
   if ((Math.ceil(n / defWidth) / Math.pow(2, maxZoom - 1)) < threshold) {
     maxZoom -= 1;

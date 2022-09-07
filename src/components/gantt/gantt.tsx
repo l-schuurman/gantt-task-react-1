@@ -80,9 +80,6 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
 
   const zoomInterval = Math.pow(2, maxZoom - zoomLevel);
 
-
-  console.log(maxZoom, zoomLevel, zoomInterval);
-
   const [cycles, setCycles] = useState<number[]>(() => {
     const [start, end] = ganttCycleRange(tasks);
     return seedCycles(start, end, zoomInterval);
