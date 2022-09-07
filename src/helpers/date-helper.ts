@@ -1,51 +1,50 @@
 import { Task } from "../types/public-types";
 
-export const addToDate = (
-  date: number,
+export const addToCycle = (
+  cycle: number,
   quantity: number,
 ) => {
-  const newDate = date + quantity;
-  return newDate;
+  return cycle + quantity;
 };
 
-export const ganttDateRange = (
+export const ganttCycleRange = (
   tasks: Task[],
 ) => {
-  let newStartDate: number = tasks[0].start;
-  let newEndDate: number = tasks[0].start;
+  let newStartCycle: number = tasks[0].start;
+  let newEndCycle: number = tasks[0].start;
   for (const task of tasks) {
-    if (task.start < newStartDate) {
-      newStartDate = task.start;
+    if (task.start < newStartCycle) {
+      newStartCycle = task.start;
     }
-    if (task.end > newEndDate) {
-      newEndDate = task.end;
+    if (task.end > newEndCycle) {
+      newEndCycle = task.end;
     }
   }
-      newEndDate = addToDate(newEndDate, 1);
- 
-  return [newStartDate, newEndDate];
+  newEndCycle = addToCycle(newEndCycle, 1);
+
+  return [newStartCycle, newEndCycle];
 };
 
-export const seedDates = (
-  startDate: number,
-  endDate: number,
+export const seedCycles = (
+  startCycle: number,
+  endCycle: number,
   interval: number
 ) => {
-  let currentDate: number = startDate;
-  currentDate = addToDate(currentDate, -interval)
-  const dates: number[] = [currentDate];
+  let currentCycle: number = startCycle;
+  currentCycle = addToCycle(currentCycle, -interval)
+  const cycles: number[] = [currentCycle];
   console.log(interval);
-  while (currentDate < endDate) {
-    currentDate = addToDate(currentDate, interval)
-    dates.push(currentDate);
+  while (currentCycle < endCycle) {
+    currentCycle = addToCycle(currentCycle, interval)
+    cycles.push(currentCycle);
   }
-  return dates;
+  return cycles;
 };
 
-export const getMaxZoom = (startDate: number, endDate: number, svgContainerWidth: number, columnWidth: number) => {
-  let n = endDate - startDate;
+export const getMaxZoom = (startCycle: number, endCycle: number, svgContainerWidth: number, columnWidth: number) => {
+  let n = endCycle - startCycle;
   console.log("n", n)
-  let defWidth = svgContainerWidth === 0 ? 15: Math.floor(svgContainerWidth / columnWidth);
+  let defWidth = svgContainerWidth === 0 ? 15 : Math.floor(svgContainerWidth / columnWidth);
   console.log("defWidth", svgContainerWidth, columnWidth, defWidth)
   const threshold = 1.2;
 

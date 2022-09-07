@@ -4,14 +4,14 @@ import styles from "./grid.module.css";
 
 export type GridBodyProps = {
   tasks: Task[];
-  dates: number[];
+  cycles: number[];
   svgWidth: number;
   rowHeight: number;
   columnWidth: number;
 };
 export const GridBody: React.FC<GridBodyProps> = ({
   tasks,
-  dates,
+  cycles,
   rowHeight,
   svgWidth,
   columnWidth,
@@ -54,12 +54,11 @@ export const GridBody: React.FC<GridBodyProps> = ({
 
   let tickX = 0;
   const ticks: React.ReactElement[] = [];
-  for (let i = 0; i < dates.length - 1; i++) {
-    const date = dates[i];
-    let keey = new Date(date, 0)
+  for (let i = 0; i < cycles.length - 1; i++) {
+    const cycle = cycles[i];
     ticks.push(
       <line
-        key={keey.getTime()}
+        key={cycle}
         x1={tickX}
         y1={0}
         x2={tickX}

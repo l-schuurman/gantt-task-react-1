@@ -3,7 +3,7 @@ import { TopPartOfCalendar } from "./top-part-of-calendar";
 import styles from "./calendar.module.css";
 
 export type CalendarProps = {
-  dateSetup: number[];
+  cycles: number[];
   headerHeight: number;
   columnWidth: number;
   fontFamily: string;
@@ -11,7 +11,7 @@ export type CalendarProps = {
 };
 
 export const Calendar: React.FC<CalendarProps> = ({
-  dateSetup,
+  cycles,
   headerHeight,
   columnWidth,
   fontFamily,
@@ -19,12 +19,12 @@ export const Calendar: React.FC<CalendarProps> = ({
 }) => {
   const getHeaderValues = () => {
     const topValues: React.ReactElement[] = [];
-    for (let i = 1; i < dateSetup.length - 1; i++) {
-      const date = dateSetup[i];
+    for (let i = 1; i < cycles.length - 1; i++) {
+      const cycle = cycles[i];
       if (
-        date !== dateSetup[i - 1]
+        cycle !== cycles[i - 1]
       ) {
-        const topValue = date.toString();
+        const topValue = cycle.toString();
 
         topValues.push(
           <TopPartOfCalendar
@@ -49,7 +49,7 @@ export const Calendar: React.FC<CalendarProps> = ({
       <rect
         x={0}
         y={0}
-        width={columnWidth * (dateSetup.length - 1)}
+        width={columnWidth * (cycles.length - 1)}
         height={headerHeight}
         className={styles.calendarHeader}
       />

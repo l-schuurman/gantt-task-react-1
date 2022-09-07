@@ -7,7 +7,7 @@ import React, {
 } from "react";
 import { GanttProps, Task } from "../../types/public-types";
 import { GridProps } from "../grid/grid";
-import { ganttDateRange, seedDates, getMaxZoom } from "../../helpers/date-helper";
+import { ganttCycleRange, seedCycles, getMaxZoom } from "../../helpers/date-helper";
 import { CalendarProps } from "../calendar/calendar";
 import { TaskGanttContentProps } from "./task-gantt-content";
 import { TaskListHeaderDefault } from "../task-list/task-list-header";
@@ -46,7 +46,7 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
   fontFamily = "Arial, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue",
   fontSize = "14px",
   arrowIndent = 20,
-  viewDate,
+  viewCycle,
   TooltipContent = StandardTooltipContent,
   TaskListHeader = TaskListHeaderDefault,
   TaskListTable = TaskListTableDefault,
@@ -71,8 +71,8 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
     [rowHeight, barFill]
   );
 
-  const [startDate, endDate] = ganttDateRange(tasks);
-  const maxZoom = getMaxZoom(startDate, endDate, svgContainerWidth, columnWidth)
+  const [startCycle, endCycle] = ganttCycleRange(tasks);
+  const maxZoom = getMaxZoom(startCycle, endCycle, svgContainerWidth, columnWidth)
 
   zoomLevel = Math.min(maxZoom, zoomLevel);
   zoomLevel = Math.max(0, zoomLevel);
@@ -83,18 +83,18 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
 
   console.log(maxZoom, zoomLevel, zoomInterval);
 
-  const [dateSetup, setDateSetup] = useState<number[]>(() => {
-    const [startDate, endDate] = ganttDateRange(tasks);
-    return seedDates(startDate, endDate, zoomInterval);
+  const [cycles, setCycles] = useState<number[]>(() => {
+    const [startCycle, endCycle] = ganttCycleRange(tasks);
+    return seedCycles(startCycle, endCycle, zoomInterval);
   });
-  const [currentViewDate, setCurrentViewDate] = useState<number | undefined>(
+  const [currentViewCycle, setCurrentViewCycle] = useState<number | undefined>(
     undefined
   );
 
   const [selectedTask, setSelectedTask] = useState<BarTask>();
   const [failedTask, setFailedTask] = useState<BarTask | null>(null);
 
-  const svgWidth = (dateSetup.length - 1) * columnWidth;
+  const svgWidth = (cycles.length - 1) * columnWidth;
   const ganttFullHeight = barTasks.length * rowHeight;
 
   const [scrollY, setScrollY] = useState(0);
@@ -110,14 +110,14 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
       filteredTasks = tasks;
     }
     filteredTasks = filteredTasks.sort(sortTasks);
-    const [startDate, endDate] = ganttDateRange(
+    const [startCycle, endCycle] = ganttCycleRange(
       filteredTasks);
-    let newDates = seedDates(startDate, endDate, zoomInterval);
-    setDateSetup(newDates);
+    let newCycles = seedCycles(startCycle, endCycle, zoomInterval);
+    setCycles(newCycles);
     setBarTasks(
       convertToBarTasks(
         filteredTasks,
-        newDates,
+        newCycles,
         columnWidth,
         rowHeight,
         taskHeight,
@@ -151,28 +151,28 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
 
   useEffect(() => {
     if (
-      ((viewDate && !currentViewDate) ||
-        (viewDate && currentViewDate?.valueOf() !== viewDate.valueOf()))
+      ((viewCycle && !currentViewCycle) ||
+        (viewCycle && currentViewCycle?.valueOf() !== viewCycle.valueOf()))
     ) {
-      const dates = dateSetup;
-      const index = dates.findIndex(
+      const tempCycles = cycles;
+      const index = tempCycles.findIndex(
         (d, i) =>
-          viewDate >= d &&
-          i + 1 !== dates.length &&
-          viewDate < dates[i + 1]
+        viewCycle >= d &&
+          i + 1 !== tempCycles.length &&
+          viewCycle < tempCycles[i + 1]
       );
       if (index === -1) {
         return;
       }
-      setCurrentViewDate(viewDate);
+      setCurrentViewCycle(viewCycle);
       setScrollX(columnWidth * index);
     }
   }, [
-    viewDate,
+    viewCycle,
     columnWidth,
-    dateSetup,
-    currentViewDate,
-    setCurrentViewDate,
+    cycles,
+    currentViewCycle,
+    setCurrentViewCycle,
   ]);
 
   useEffect(() => {
@@ -343,10 +343,10 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
     svgWidth,
     tasks: tasks,
     rowHeight,
-    dates: dateSetup,
+    cycles: cycles,
   };
   const calendarProps: CalendarProps = {
-    dateSetup,
+    cycles,
     headerHeight,
     columnWidth,
     fontFamily,
@@ -354,7 +354,7 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
   };
   const barProps: TaskGanttContentProps = {
     tasks: barTasks,
-    dates: dateSetup,
+    cycles: cycles,
     ganttEvent,
     selectedTask,
     rowHeight,

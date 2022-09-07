@@ -10,7 +10,7 @@ import {
 
 export type TaskGanttContentProps = {
   tasks: BarTask[];
-  dates: number[];
+  cycles: number[];
   ganttEvent: GanttEvent;
   selectedTask: BarTask | undefined;
   rowHeight: number;
