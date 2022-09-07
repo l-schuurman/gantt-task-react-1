@@ -25,27 +25,32 @@ import styles from "./gantt.module.css";
 
 export const Gantt: React.FunctionComponent<GanttProps> = ({
   tasks,
-  headerHeight = 30,
-  columnWidth = 60,
-  listCellWidth = "155px",
-  rowHeight = 20,
+
+  /* --- Pixel sizes for various parts of the Gantt chart --- */
+  headerHeight = 30, // Height of Gantt chart header
+  rowHeight = 20, // Height of each row in the table
+  columnWidth = 60, // Width of each column in the table
+  listCellWidth = "155px", // Width of each task cell
+  barFill = 60, // Percent of the row the bar fills. 100 = full row bar, 50 = half row bar
+  barCornerRadius = 3, // How rounded the bars are, 0 = rectangles
+  arrowIndent = 20, // Arrow path leading to/from tasks
+  minTaskWidth = 5, // In large designs, tasks will not be visible, so set a minimum width of 5px.
+  fontSize = "14px",
+
+  /* Default is 0, renders unlimited height if no ganttHeight is passed in, 
+     otherwise renders limited height with vertical scroll*/
   ganttHeight = 0,
-  preStepsCount = 1,
-  locale = "en-GB",
-  barFill = 60,
-  barCornerRadius = 3,
+
+  /* --- COLOR STYLES --- */
   barBackgroundColor = "#b8c2cc",
   barBackgroundSelectedColor = "#28eaed",
   projectBackgroundColor = "#fac465",
   projectBackgroundSelectedColor = "#f7bb53",
   milestoneBackgroundColor = "#f1c453",
   milestoneBackgroundSelectedColor = "#f29e4c",
-  minTaskWidth = 5,
-  timeStep = 300000,
   arrowColor = "grey",
   fontFamily = "Arial, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue",
-  fontSize = "14px",
-  arrowIndent = 20,
+  
   viewCycle,
   TooltipContent = StandardTooltipContent,
   TaskListHeader = TaskListHeaderDefault,
@@ -56,40 +61,44 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
   onZoomChange,
   zoomLevel,
 }) => {
-  const wrapperRef = useRef<HTMLDivElement>(null);
-  const taskListRef = useRef<HTMLDivElement>(null);
+  const wrapperRef = useRef<HTMLDivElement>(null);                            // DOM element of entire chart
+  const taskListRef = useRef<HTMLDivElement>(null);                           // Dom element of the task details left pane
 
-  const [taskListWidth, setTaskListWidth] = useState(0);
-  const [svgContainerWidth, setSvgContainerWidth] = useState(0);
-  const [svgContainerHeight, setSvgContainerHeight] = useState(ganttHeight);
-  const [barTasks, setBarTasks] = useState<BarTask[]>([]);
-  const [ganttEvent, setGanttEvent] = useState<GanttEvent>({
+  const [taskListWidth, setTaskListWidth] = useState(0);                      // Width of the task list
+  const [svgContainerWidth, setSvgContainerWidth] = useState(0);              // Width of the chart component
+  const [svgContainerHeight, setSvgContainerHeight] = useState(ganttHeight);  // Height of the chart component
+  const [barTasks, setBarTasks] = useState<BarTask[]>([]);                    // Array of the tasks
+  const [ganttEvent, setGanttEvent] = useState<GanttEvent>({                  // Defines a mouse action
     action: "",
   });
-  const taskHeight = useMemo(
-    () => (rowHeight * barFill) / 100,
+  const taskHeight = useMemo(                                                 // Height of each bar
+    () => rowHeight * (barFill / 100),
     [rowHeight, barFill]
   );
 
   const [start, end] = ganttCycleRange(tasks);
-  const maxZoom = getMaxZoom(start, end, svgContainerWidth, columnWidth)
 
+  // Determine maximum zoom level and constrain the current zoomLevel in the range [0, maxZoom]
+  const maxZoom = getMaxZoom(start, end, svgContainerWidth, columnWidth)
   zoomLevel = Math.min(maxZoom, zoomLevel);
   zoomLevel = Math.max(0, zoomLevel);
   onZoomChange(zoomLevel);
 
+  // Determine the interval the tasks while be displayed
   const zoomInterval = Math.pow(2, maxZoom - zoomLevel);
 
+  // Create the array of values the Gantt chart will be rendered to
   const [cycles, setCycles] = useState<number[]>(() => {
     const [start, end] = ganttCycleRange(tasks);
     return seedCycles(start, end, zoomInterval);
   });
+
+  // 
   const [currentViewCycle, setCurrentViewCycle] = useState<number | undefined>(
     undefined
   );
 
   const [selectedTask, setSelectedTask] = useState<BarTask>();
-  const [failedTask, setFailedTask] = useState<BarTask | null>(null);
 
   const svgWidth = (cycles.length - 1) * columnWidth;
   const ganttFullHeight = barTasks.length * rowHeight;
@@ -130,7 +139,6 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
     );
   }, [
     tasks,
-    preStepsCount,
     rowHeight,
     barCornerRadius,
     columnWidth,
@@ -154,7 +162,7 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
       const tempCycles = cycles;
       const index = tempCycles.findIndex(
         (d, i) =>
-        viewCycle >= d &&
+          viewCycle >= d &&
           i + 1 !== tempCycles.length &&
           viewCycle < tempCycles[i + 1]
       );
@@ -171,13 +179,6 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
     currentViewCycle,
     setCurrentViewCycle,
   ]);
-
-  useEffect(() => {
-    if (failedTask) {
-      setBarTasks(barTasks.map(t => (t.id !== failedTask.id ? t : failedTask)));
-      setFailedTask(null);
-    }
-  }, [failedTask, barTasks]);
 
   useEffect(() => {
     if (!listCellWidth) {
@@ -358,13 +359,11 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
     taskHeight,
     columnWidth,
     arrowColor,
-    timeStep,
     fontFamily,
     fontSize,
     arrowIndent,
     svgWidth,
     setGanttEvent,
-    setFailedTask,
     setSelectedTask: handleSelectedTask,
     onClick,
   };
@@ -375,7 +374,6 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
     fontFamily,
     fontSize,
     tasks: barTasks,
-    locale,
     headerHeight,
     scrollY,
     ganttHeight,

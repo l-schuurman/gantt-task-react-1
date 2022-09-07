@@ -15,7 +15,6 @@ export type TaskGanttContentProps = {
   selectedTask: BarTask | undefined;
   rowHeight: number;
   columnWidth: number;
-  timeStep: number;
   svg?: React.RefObject<SVGSVGElement>;
   svgWidth: number;
   taskHeight: number;
@@ -24,7 +23,6 @@ export type TaskGanttContentProps = {
   fontSize: string;
   fontFamily: string;
   setGanttEvent: (value: GanttEvent) => void;
-  setFailedTask: (value: BarTask | null) => void;
   setSelectedTask: (taskId: string) => void;
 } & EventOption;
 

@@ -6,7 +6,7 @@ import "gantt-task-react/dist/index.css";
 
 // Init
 const App = () => {
-  const [zoom, setZoom] = React.useState<number>(0);
+  const [zoom, setZoom] = React.useState<number>(6);
   const [tasks, setTasks] = React.useState<Task[]>(initTasks());
   const [isChecked, setIsChecked] = React.useState(true);
   let columnWidth = 50;
@@ -43,8 +43,9 @@ const App = () => {
         onZoomChange={setZoom}
         zoomLevel={zoom}
         barBackgroundSelectedColor={"#fcba03"}
+        viewCycle={1700}
       />
-      {/* <h3>Gantt With Limited Height</h3>
+      <h3>Gantt With Limited Height</h3>
       <Gantt
         tasks={tasks}
         onClick={handleClick}
@@ -55,7 +56,7 @@ const App = () => {
         columnWidth={columnWidth}
         onZoomChange={setZoom}
         zoomLevel={zoom}
-      /> */}
+      />
     </div>
   );
 };

@@ -2,7 +2,7 @@ import { Task, TaskType } from "../../dist/types/public-types";
 
 export function initTasks() {
 
-  const { scheduleJSON } = require('./maxreplicate.js')
+  const { scheduleJSON } = require('./radix.js')
 
   let tasks: Task[] = [];
 

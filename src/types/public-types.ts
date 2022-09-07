@@ -18,10 +18,6 @@ export interface Task {
 
 export interface EventOption {
   /**
-   * Time step value for date changes.
-   */
-  timeStep?: number;
-  /**
    * Invokes on bar select on unselect.
    */
   onSelect?: (task: Task, isSelected: boolean) => void;
@@ -37,11 +33,6 @@ export interface EventOption {
 
 export interface DisplayOption {
   viewCycle?: number;
-  preStepsCount?: number;
-  /**
-   * Specifies the month name language. Able formats: ISO 639-2, Java Locale
-   */
-  locale?: string;
   onZoomChange: (zoomLevel: number) => void;
   zoomLevel: number;
 }
@@ -86,7 +77,6 @@ export interface StylingOption {
     rowWidth: string;
     fontFamily: string;
     fontSize: string;
-    locale: string;
     tasks: Task[];
     selectedTaskId: string;
     /**
