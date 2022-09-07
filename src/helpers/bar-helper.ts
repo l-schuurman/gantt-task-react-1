@@ -8,7 +8,7 @@ export const convertToBarTasks = (
   rowHeight: number,
   taskHeight: number,
   barCornerRadius: number,
-  handleWidth: number,
+  minTaskWidth: number,
   barBackgroundColor: string,
   barBackgroundSelectedColor: string,
   projectBackgroundColor: string,
@@ -25,7 +25,7 @@ export const convertToBarTasks = (
       rowHeight,
       taskHeight,
       barCornerRadius,
-      handleWidth,
+      minTaskWidth,
       barBackgroundColor,
       barBackgroundSelectedColor,
       projectBackgroundColor,
@@ -58,7 +58,7 @@ const convertToBarTask = (
   rowHeight: number,
   taskHeight: number,
   barCornerRadius: number,
-  handleWidth: number,
+  minTaskWidth: number,
   barBackgroundColor: string,
   barBackgroundSelectedColor: string,
   projectBackgroundColor: string,
@@ -77,7 +77,7 @@ const convertToBarTask = (
         rowHeight,
         taskHeight,
         barCornerRadius,
-        handleWidth,
+        minTaskWidth,
         milestoneBackgroundColor,
         milestoneBackgroundSelectedColor
       );
@@ -91,7 +91,7 @@ const convertToBarTask = (
         rowHeight,
         taskHeight,
         barCornerRadius,
-        handleWidth,
+        minTaskWidth,
         projectBackgroundColor,
         projectBackgroundSelectedColor
       );
@@ -105,7 +105,7 @@ const convertToBarTask = (
         rowHeight,
         taskHeight,
         barCornerRadius,
-        handleWidth,
+        minTaskWidth,
         barBackgroundColor,
         barBackgroundSelectedColor
       );
@@ -122,7 +122,7 @@ const convertToBar = (
   rowHeight: number,
   taskHeight: number,
   barCornerRadius: number,
-  handleWidth: number,
+  minTaskWidth: number,
   barBackgroundColor: string,
   barBackgroundSelectedColor: string
 ): BarTask => {
@@ -132,10 +132,9 @@ const convertToBar = (
   x2 = taskXCoordinate(task.end, cycles, columnWidth);
 
   let typeInternal: TaskTypeInternal = task.type;
-  if (typeInternal === "task" && x2 - x1 < 5 /*handleWidth * 2*/) {
+  if (typeInternal === "task" && x2 - x1 < minTaskWidth) {
     typeInternal = "smalltask";
-    // x2 = x1 + handleWidth * 2;
-    x2 = x1 + 5;
+    x2 = x1 + minTaskWidth;
   }
 
   const y = taskYCoordinate(index, rowHeight, taskHeight);
@@ -154,7 +153,7 @@ const convertToBar = (
     y,
     index,
     barCornerRadius,
-    handleWidth,
+    minTaskWidth,
     hideChildren,
     height: taskHeight,
     barChildren: [],
@@ -170,7 +169,7 @@ const convertToMilestone = (
   rowHeight: number,
   taskHeight: number,
   barCornerRadius: number,
-  handleWidth: number,
+  minTaskWidth: number,
   milestoneBackgroundColor: string,
   milestoneBackgroundSelectedColor: string
 ): BarTask => {
@@ -194,7 +193,7 @@ const convertToMilestone = (
     y,
     index,
     barCornerRadius,
-    handleWidth,
+    minTaskWidth,
     typeInternal: task.type,
     height: rotatedHeight,
     hideChildren: undefined,

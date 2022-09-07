@@ -10,39 +10,39 @@ export const addToCycle = (
 export const ganttCycleRange = (
   tasks: Task[],
 ) => {
-  let newStartCycle: number = tasks[0].start;
-  let newEndCycle: number = tasks[0].start;
+  let newStart: number = tasks[0].start;
+  let newEnd: number = tasks[0].start;
   for (const task of tasks) {
-    if (task.start < newStartCycle) {
-      newStartCycle = task.start;
+    if (task.start < newStart) {
+      newStart = task.start;
     }
-    if (task.end > newEndCycle) {
-      newEndCycle = task.end;
+    if (task.end > newEnd) {
+      newEnd = task.end;
     }
   }
-  newEndCycle = addToCycle(newEndCycle, 1);
+  newEnd = addToCycle(newEnd, 1);
 
-  return [newStartCycle, newEndCycle];
+  return [newStart, newEnd];
 };
 
 export const seedCycles = (
-  startCycle: number,
-  endCycle: number,
+  start: number,
+  end: number,
   interval: number
 ) => {
-  let currentCycle: number = startCycle;
-  currentCycle = addToCycle(currentCycle, -interval)
-  const cycles: number[] = [currentCycle];
+  let current: number = start;
+  current = addToCycle(current, -interval)
+  const cycles: number[] = [current];
   console.log(interval);
-  while (currentCycle < endCycle) {
-    currentCycle = addToCycle(currentCycle, interval)
-    cycles.push(currentCycle);
+  while (current < end) {
+    current = addToCycle(current, interval)
+    cycles.push(current);
   }
   return cycles;
 };
 
-export const getMaxZoom = (startCycle: number, endCycle: number, svgContainerWidth: number, columnWidth: number) => {
-  let n = endCycle - startCycle;
+export const getMaxZoom = (start: number, end: number, svgContainerWidth: number, columnWidth: number) => {
+  let n = end - start;
   console.log("n", n)
   let defWidth = svgContainerWidth === 0 ? 15 : Math.floor(svgContainerWidth / columnWidth);
   console.log("defWidth", svgContainerWidth, columnWidth, defWidth)

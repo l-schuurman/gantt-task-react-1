@@ -8,7 +8,7 @@ export interface BarTask extends Task {
   y: number;
   height: number;
   barCornerRadius: number;
-  handleWidth: number;
+  minTaskWidth: number;
   barChildren: BarTask[];
   styles: {
     backgroundColor: string;

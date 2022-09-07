@@ -53,7 +53,7 @@ export interface StylingOption {
   rowHeight?: number;
   ganttHeight?: number;
   barCornerRadius?: number;
-  handleWidth?: number;
+  minTaskWidth?: number;
   fontFamily?: string;
   fontSize?: string;
   /**

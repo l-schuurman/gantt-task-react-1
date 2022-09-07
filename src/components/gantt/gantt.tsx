@@ -40,7 +40,7 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
   projectBackgroundSelectedColor = "#f7bb53",
   milestoneBackgroundColor = "#f1c453",
   milestoneBackgroundSelectedColor = "#f29e4c",
-  handleWidth = 8,
+  minTaskWidth = 5,
   timeStep = 300000,
   arrowColor = "grey",
   fontFamily = "Arial, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue",
@@ -71,8 +71,8 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
     [rowHeight, barFill]
   );
 
-  const [startCycle, endCycle] = ganttCycleRange(tasks);
-  const maxZoom = getMaxZoom(startCycle, endCycle, svgContainerWidth, columnWidth)
+  const [start, end] = ganttCycleRange(tasks);
+  const maxZoom = getMaxZoom(start, end, svgContainerWidth, columnWidth)
 
   zoomLevel = Math.min(maxZoom, zoomLevel);
   zoomLevel = Math.max(0, zoomLevel);
@@ -84,8 +84,8 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
   console.log(maxZoom, zoomLevel, zoomInterval);
 
   const [cycles, setCycles] = useState<number[]>(() => {
-    const [startCycle, endCycle] = ganttCycleRange(tasks);
-    return seedCycles(startCycle, endCycle, zoomInterval);
+    const [start, end] = ganttCycleRange(tasks);
+    return seedCycles(start, end, zoomInterval);
   });
   const [currentViewCycle, setCurrentViewCycle] = useState<number | undefined>(
     undefined
@@ -110,9 +110,9 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
       filteredTasks = tasks;
     }
     filteredTasks = filteredTasks.sort(sortTasks);
-    const [startCycle, endCycle] = ganttCycleRange(
+    const [start, end] = ganttCycleRange(
       filteredTasks);
-    let newCycles = seedCycles(startCycle, endCycle, zoomInterval);
+    let newCycles = seedCycles(start, end, zoomInterval);
     setCycles(newCycles);
     setBarTasks(
       convertToBarTasks(
@@ -122,7 +122,7 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
         rowHeight,
         taskHeight,
         barCornerRadius,
-        handleWidth,
+        minTaskWidth,
         barBackgroundColor,
         barBackgroundSelectedColor,
         projectBackgroundColor,
@@ -138,7 +138,7 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
     barCornerRadius,
     columnWidth,
     taskHeight,
-    handleWidth,
+    minTaskWidth,
     barBackgroundColor,
     barBackgroundSelectedColor,
     projectBackgroundColor,
