@@ -19,7 +19,6 @@ import { TaskGantt } from "./task-gantt";
 import { BarTask } from "../../types/bar-task";
 import { convertToBarTasks } from "../../helpers/bar-helper";
 import { GanttEvent } from "../../types/gantt-task-actions";
-import { DateSetup } from "../../types/date-setup";
 import { HorizontalScroll } from "../other/horizontal-scroll";
 import { removeHiddenTasks, sortTasks } from "../../helpers/other-helper";
 import styles from "./gantt.module.css";
@@ -84,9 +83,9 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
 
   console.log(maxZoom, zoomLevel, zoomInterval);
 
-  const [dateSetup, setDateSetup] = useState<DateSetup>(() => {
+  const [dateSetup, setDateSetup] = useState<number[]>(() => {
     const [startDate, endDate] = ganttDateRange(tasks);
-    return { dates: seedDates(startDate, endDate, zoomInterval) };
+    return seedDates(startDate, endDate, zoomInterval);
   });
   const [currentViewDate, setCurrentViewDate] = useState<number | undefined>(
     undefined
@@ -95,7 +94,7 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
   const [selectedTask, setSelectedTask] = useState<BarTask>();
   const [failedTask, setFailedTask] = useState<BarTask | null>(null);
 
-  const svgWidth = (dateSetup.dates.length - 1) * columnWidth;
+  const svgWidth = (dateSetup.length - 1) * columnWidth;
   const ganttFullHeight = barTasks.length * rowHeight;
 
   const [scrollY, setScrollY] = useState(0);
@@ -114,7 +113,7 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
     const [startDate, endDate] = ganttDateRange(
       filteredTasks);
     let newDates = seedDates(startDate, endDate, zoomInterval);
-    setDateSetup({ dates: newDates });
+    setDateSetup(newDates);
     setBarTasks(
       convertToBarTasks(
         filteredTasks,
@@ -155,7 +154,7 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
       ((viewDate && !currentViewDate) ||
         (viewDate && currentViewDate?.valueOf() !== viewDate.valueOf()))
     ) {
-      const dates = dateSetup.dates;
+      const dates = dateSetup;
       const index = dates.findIndex(
         (d, i) =>
           viewDate >= d &&
@@ -171,7 +170,7 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
   }, [
     viewDate,
     columnWidth,
-    dateSetup.dates,
+    dateSetup,
     currentViewDate,
     setCurrentViewDate,
   ]);
@@ -344,7 +343,7 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
     svgWidth,
     tasks: tasks,
     rowHeight,
-    dates: dateSetup.dates,
+    dates: dateSetup,
   };
   const calendarProps: CalendarProps = {
     dateSetup,
@@ -355,7 +354,7 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
   };
   const barProps: TaskGanttContentProps = {
     tasks: barTasks,
-    dates: dateSetup.dates,
+    dates: dateSetup,
     ganttEvent,
     selectedTask,
     rowHeight,

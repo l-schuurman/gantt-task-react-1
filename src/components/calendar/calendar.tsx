@@ -1,10 +1,9 @@
 import React from "react";
 import { TopPartOfCalendar } from "./top-part-of-calendar";
-import { DateSetup } from "../../types/date-setup";
 import styles from "./calendar.module.css";
 
 export type CalendarProps = {
-  dateSetup: DateSetup;
+  dateSetup: number[];
   headerHeight: number;
   columnWidth: number;
   fontFamily: string;
@@ -18,12 +17,12 @@ export const Calendar: React.FC<CalendarProps> = ({
   fontFamily,
   fontSize,
 }) => {
-  const getCalendarValuesForYear = () => {
+  const getHeaderValues = () => {
     const topValues: React.ReactElement[] = [];
-    for (let i = 1; i < dateSetup.dates.length - 1; i++) {
-      const date = dateSetup.dates[i];
+    for (let i = 1; i < dateSetup.length - 1; i++) {
+      const date = dateSetup[i];
       if (
-        date !== dateSetup.dates[i - 1]
+        date !== dateSetup[i - 1]
       ) {
         const topValue = date.toString();
 
@@ -43,14 +42,14 @@ export const Calendar: React.FC<CalendarProps> = ({
     return topValues;
   };
 
-  let topValues: React.ReactElement[] = getCalendarValuesForYear();
+  let topValues: React.ReactElement[] = getHeaderValues();
 
   return (
     <g className="calendar" fontSize={fontSize} fontFamily={fontFamily}>
       <rect
         x={0}
         y={0}
-        width={columnWidth * (dateSetup.dates.length - 1)}
+        width={columnWidth * (dateSetup.length - 1)}
         height={headerHeight}
         className={styles.calendarHeader}
       />
