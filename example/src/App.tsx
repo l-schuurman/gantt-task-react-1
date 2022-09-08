@@ -43,7 +43,6 @@ const App = () => {
         onZoomChange={setZoom}
         zoomLevel={zoom}
         barBackgroundSelectedColor={"#fcba03"}
-        viewCycle={1700}
       />
       <h3>Gantt With Limited Height</h3>
       <Gantt
