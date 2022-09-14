@@ -7,7 +7,7 @@ export type CalendarProps = {
   headerHeight: number;
   columnWidth: number;
   fontFamily: string;
-  fontSize: string;
+  fontSize: number;
 };
 
 export const Calendar: React.FC<CalendarProps> = ({
@@ -19,12 +19,12 @@ export const Calendar: React.FC<CalendarProps> = ({
 }) => {
   const getHeaderValues = () => {
     const topValues: React.ReactElement[] = [];
+
+    // We render an extra cycle before and after the data to account for arrows
+    // Skip the first and last index when displaying the cycles
     for (let i = 1; i < cycles.length - 1; i++) {
       const cycle = cycles[i];
-      if (
-        cycle !== cycles[i - 1]
-      ) {
-        const topValue = cycle.toString();
+        const topValue = cycle;
 
         topValues.push(
           <TopPartOfCalendar
@@ -34,10 +34,10 @@ export const Calendar: React.FC<CalendarProps> = ({
             y1Line={0}
             y2Line={headerHeight}
             xText={columnWidth * i}
-            yText={15}
+            yText={20}
           />
         );
-      }
+
     }
     return topValues;
   };

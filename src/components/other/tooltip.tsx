@@ -14,11 +14,11 @@ export type TooltipProps = {
   scrollX: number;
   scrollY: number;
   rowHeight: number;
-  fontSize: string;
+  fontSize: number;
   fontFamily: string;
   TooltipContent: React.FC<{
     task: Task;
-    fontSize: string;
+    fontSize: number;
     fontFamily: string;
   }>;
 };
@@ -100,7 +100,7 @@ export const Tooltip: React.FC<TooltipProps> = ({
 
 export const StandardTooltipContent: React.FC<{
   task: Task;
-  fontSize: string;
+  fontSize: number;
   fontFamily: string;
 }> = ({ task, fontSize, fontFamily }) => {
   const style = {
@@ -109,7 +109,7 @@ export const StandardTooltipContent: React.FC<{
   };
   return (
     <div className={styles.tooltipDefaultContainer} style={style}>
-      <b style={{ fontSize: fontSize + 6 }}>{`${
+      <b style={{ fontSize: fontSize }}>{`${
         task.name
       }`}</b>
       {task.end - task.start !== 0 && (

@@ -1,5 +1,5 @@
 import { Task } from "../types/public-types";
-import { BarTask, TaskTypeInternal } from "../types/bar-task";
+import { BarTask } from "../types/bar-task";
 
 export const convertToBarTasks = (
   tasks: Task[],
@@ -131,9 +131,7 @@ const convertToBar = (
   x1 = taskXCoordinate(task.start, cycles, columnWidth);
   x2 = taskXCoordinate(task.end, cycles, columnWidth);
 
-  let typeInternal: TaskTypeInternal = task.type;
-  if (typeInternal === "task" && x2 - x1 < minTaskWidth) {
-    typeInternal = "smalltask";
+  if (x2 - x1 < minTaskWidth) {
     x2 = x1 + minTaskWidth;
   }
 
@@ -147,7 +145,6 @@ const convertToBar = (
   };
   return {
     ...task,
-    typeInternal,
     x1,
     x2,
     y,
@@ -194,7 +191,6 @@ const convertToMilestone = (
     index,
     barCornerRadius,
     minTaskWidth,
-    typeInternal: task.type,
     height: rotatedHeight,
     hideChildren: undefined,
     barChildren: [],

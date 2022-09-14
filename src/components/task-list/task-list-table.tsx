@@ -6,7 +6,7 @@ export const TaskListTableDefault: React.FC<{
   rowHeight: number;
   rowWidth: string;
   fontFamily: string;
-  fontSize: string;
+  fontSize: number;
   tasks: Task[];
   selectedTaskId: string;
   setSelectedTask: (taskId: string) => void;
@@ -89,7 +89,7 @@ export const TaskListTableDefault: React.FC<{
                 maxWidth: rowWidth,
               }}
             >
-              &nbsp;aaa
+              &nbsp;{t.source}
             </div>
           </div>
         );

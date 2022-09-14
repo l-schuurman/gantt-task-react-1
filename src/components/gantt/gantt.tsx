@@ -35,7 +35,7 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
   barCornerRadius = 3, // How rounded the bars are, 0 = rectangles
   arrowIndent = 20, // Arrow path leading to/from tasks
   minTaskWidth = 5, // In large designs, tasks will not be visible, so set a minimum width of 5px.
-  fontSize = "14px",
+  fontSize = 14,
 
   /* Default is 0, renders unlimited height if no ganttHeight is passed in, 
      otherwise renders limited height with vertical scroll*/

@@ -6,7 +6,7 @@ export type TaskListProps = {
   headerHeight: number;
   rowWidth: string;
   fontFamily: string;
-  fontSize: string;
+  fontSize: number;
   rowHeight: number;
   ganttHeight: number;
   scrollY: number;
@@ -20,13 +20,13 @@ export type TaskListProps = {
     headerHeight: number;
     rowWidth: string;
     fontFamily: string;
-    fontSize: string;
+    fontSize: number;
   }>;
   TaskListTable: React.FC<{
     rowHeight: number;
     rowWidth: string;
     fontFamily: string;
-    fontSize: string;
+    fontSize: number;
     tasks: Task[];
     selectedTaskId: string;
     setSelectedTask: (taskId: string) => void;

@@ -9,11 +9,11 @@ export interface Task {
     backgroundColor?: string;
     backgroundSelectedColor?: string;
   };
-  isDisabled?: boolean;
   project?: string;
   dependencies?: string[];
   hideChildren?: boolean;
   displayOrder?: number;
+  source?: string;
 }
 
 export interface EventOption {
@@ -46,7 +46,7 @@ export interface StylingOption {
   barCornerRadius?: number;
   minTaskWidth?: number;
   fontFamily?: string;
-  fontSize?: string;
+  fontSize?: number;
   /**
    * How many of row width can be taken by task.
    * From 0 to 100
@@ -63,20 +63,20 @@ export interface StylingOption {
   todayColor?: string;
   TooltipContent?: React.FC<{
     task: Task;
-    fontSize: string;
+    fontSize: number;
     fontFamily: string;
   }>;
   TaskListHeader?: React.FC<{
     headerHeight: number;
     rowWidth: string;
     fontFamily: string;
-    fontSize: string;
+    fontSize: number;
   }>;
   TaskListTable?: React.FC<{
     rowHeight: number;
     rowWidth: string;
     fontFamily: string;
-    fontSize: string;
+    fontSize: number;
     tasks: Task[];
     selectedTaskId: string;
     /**

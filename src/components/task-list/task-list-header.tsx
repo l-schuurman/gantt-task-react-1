@@ -5,7 +5,7 @@ export const TaskListHeaderDefault: React.FC<{
   headerHeight: number;
   rowWidth: string;
   fontFamily: string;
-  fontSize: string;
+  fontSize: number;
 }> = ({ headerHeight, fontFamily, fontSize, rowWidth }) => {
   return (
     <div

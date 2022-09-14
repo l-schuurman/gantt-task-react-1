@@ -2,7 +2,7 @@ import React from "react";
 import styles from "./calendar.module.css";
 
 type TopPartOfCalendarProps = {
-  value: string;
+  value: number;
   x1Line: number;
   y1Line: number;
   y2Line: number;

@@ -20,7 +20,7 @@ export type TaskGanttContentProps = {
   taskHeight: number;
   arrowColor: string;
   arrowIndent: number;
-  fontSize: string;
+  fontSize: number;
   fontFamily: string;
   setGanttEvent: (value: GanttEvent) => void;
   setSelectedTask: (taskId: string) => void;
